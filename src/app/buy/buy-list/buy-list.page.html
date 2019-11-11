@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="selected_product != null">{{selected_product['name']}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row style="text-align: right;">
+    <ion-col>
+      <ion-button (click)="filterClicked($event)">Apply Filter</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-card *ngFor="let product of post_product_list">
+    <ion-row>
+      <ion-col size="3">
+        <ion-avatar *ngIf="product['image'] != null">
+          <ion-img src="{{ product['image'] }}"></ion-img>
+        </ion-avatar>
+        <ion-avatar *ngIf="product['image'] == null">
+          <ion-img src="assets/plant_icons/Tomato.svg"></ion-img>
+        </ion-avatar>
+      </ion-col>
+      <ion-col>
+        <ion-row>
+          <ion-col class="bold-text">Seller Name :</ion-col>
+          <ion-col>{{product['first_name']}} <br>{{product['district']}}</ion-col>
+          <ion-col size="2" style="margin-left: -16%;">
+            <ion-chip class="rotate_text">{{product['sale_type']}}</ion-chip>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="product['variety'] != null" style="margin-top: -4% ;">
+          <ion-col class="bold-text">Variety :</ion-col>
+          <ion-col>{{product['variety']}}</ion-col>
+        </ion-row>
+        <ion-row style="margin-top: -4% ;">
+          <ion-col class="bold-text">Product type :</ion-col>
+          <ion-col>{{product['product_type_name']}}</ion-col>
+        </ion-row>
+        <ion-row style="margin-top: -4% ;">
+          <ion-col class="bold-text">Posted :</ion-col>
+          <ion-col>{{product['post_date'] | timeDiffInYears}}</ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label class="bold-text">Quantity : </ion-label> {{product['quantity']}} {{product['unit_name']}}<br>
+        <ion-label class="bold-text">Price : </ion-label><span *ngIf="product['per_unit_price']!=null">
+          {{product['per_unit_price']}} Rs / {{product['unit_name']}}
+        </span>
+        <span *ngIf="product['per_unit_price']==null">
+          Not available
+        </span>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="clear" style="margin-top: -3%; background: #3880ff;border-radius: 25px;color: white;"
+          (click)="makeEnquiryClicked(product)">Make enquiry</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

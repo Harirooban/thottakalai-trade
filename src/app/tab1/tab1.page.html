@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="font-size: medium; font-weight: bold;">
+      <span *ngIf="user_first_name !== null">{{user_first_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <span style="font-style: italic; color: #a2a4ab; font-size: small;">V {{app_version}}</span>
+      <ion-button (click)="onLogout()" *ngIf="user_type != 'guest'">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onLoginClicked()" *ngIf="user_type == 'guest'">
+        login
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="product_form">
+    <ion-list>
+      <ion-searchbar animated="true" mode="ios" placeholder="Search Product" formControlName="product_value"
+        #filter_term>
+      </ion-searchbar>
+      <span *ngIf="product_form.valid">
+        <ion-item *ngFor="let product of products | productFilter: filter_term.value;"
+          (click)="productSelected(product)">
+          {{ product['name'] }}
+        </ion-item>
+      </span>
+    </ion-list>
+  </form>
+  <ion-grid class="dashboard-grid">
+    <ion-row style="text-align: center;">
+      <ion-col size="4" class="dashboard-tile icon-one" (click)="routePage('sell/product/category')">
+        <span>
+          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+        </span><br>
+        <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Sell</ion-label>
+      </ion-col>
+      <ion-col size="4" class="dashboard-tile icon-one" (click)="routePage('buy/product/category')">
+        <span>
+          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+        </span><br>
+        <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Buy</ion-label>
+      </ion-col>
+      <ion-col size="4" class="dashboard-tile icon-one" (click)="routePage('profile')">
+        <span>
+          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+        </span><br>
+        <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Profile</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

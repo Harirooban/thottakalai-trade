@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Thottakkalai: Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!--TN Gov, TANHODA LOGOS-->
+  <div style="height: 85px; width: 100%; margin: 0% 0% 0% 0%;">
+    <ion-row>
+      <ion-col size="3" style="margin: 0% 0% 0% 0%;">
+        <img src="assets/images/tngov.png">
+      </ion-col>
+      <ion-col size="6"></ion-col>
+      <ion-col size="3" style="margin: 0% 0% 0% 0%; padding-top: 15px">
+        <img src="assets/images/tanhoda.png">
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!--THOTTAKKALAI WORD ART-->
+  <div>
+    <ion-col></ion-col>
+    <ion-col><img src="assets/images/thottakalai_long_trans.png"></ion-col>
+    <ion-col></ion-col>
+  </div>
+
+  <div style="margin-top: 10%">
+    <form [formGroup]="login_form">
+      <ion-card class="custom-input">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon name="phone-portrait" style="color: #FEC96F"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <input type="text" formControlName="user_name" placeholder="Enter the phone number"
+              style="text-transform: lowercase;">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card class="custom-input">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon name="key" style="color: #FEC96F"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <input type="password" formControlName="password" placeholder="Password">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card [ngClass]="login_form.valid? 'custom-button': 'custom-invalid-button'">
+        <ion-row (click)="onLoginClicled()">
+          <ion-col>
+            Login
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <!-- <ion-card [ngClass]="login_form.valid? 'custom-button': 'custom-invalid-button'">
+        <ion-row (click)="logIn()">
+          <ion-col>
+            Login
+          </ion-col>
+        </ion-row>
+      </ion-card> -->
+    </form>
+    <ion-row>
+      <ion-col>
+        <a class="button" href="tel:+91 7010349412"
+          style="text-decoration: none; white-space: nowrap; color: gray; padding-top: 1px;">
+          <ion-icon style="color: #FEC96F; padding-top: 2px" name="call">
+          </ion-icon>
+          Login Issues?
+        </a>
+      </ion-col>
+      <ion-col (click)="forgetPassword()">
+        <div style="margin-top:7px;margin-left: 30px;color: grey">
+          Forgot password
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row style="text-align: center">
+      <ion-col style="text-align: center">
+        <ion-button fill="clear"
+          style="text-transform: initial; border-radius: 25px; background: #fec96f; color: black "
+          (click)="onRegisterClicked()">
+          Register
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="text-align: center">
+        <ion-button fill="clear" style="text-transform: initial; border-radius: 25px; background: #fec96f; color: black"
+          (click)="onGuestModeClicked()">
+          Continue as Guest
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col size="3"></ion-col>
+    <ion-col size="6"><span style="color: black">Powered by </span><span
+        style="color: red; font-style: italic;">Kultivate</span>
+    </ion-col>
+    <ion-col size="3"></ion-col>
+  </ion-row>
+</ion-footer>

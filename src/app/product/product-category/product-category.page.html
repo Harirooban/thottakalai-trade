@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Product Category</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="product_form">
+    <ion-list>
+      <ion-searchbar animated="true" mode="ios" placeholder="Search Product" formControlName="product_value"
+        #filter_term>
+      </ion-searchbar>
+      <span *ngIf="product_form.valid">
+        <ion-item *ngFor="let product of products | productFilter: filter_term.value;"
+          (click)="productSelected(product)">
+          {{ product['name'] }}
+        </ion-item>
+      </span>
+    </ion-list>
+  </form>
+  <ion-row>
+    <ion-col *ngFor="let product of product_category" size="6">
+      <ion-card (click)="productCategoryClicked(product)">
+        <ion-row>
+          <ion-col size="2">
+            <ion-img src="assets/plant_icons/Apple.svg"></ion-img>
+          </ion-col>
+          <ion-col>
+            {{product['name']}}
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

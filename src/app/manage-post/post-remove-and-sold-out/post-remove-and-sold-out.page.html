@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="modal_action == 'remove'">Remove - {{selected_post['product_name']}}</ion-title>
+    <ion-title *ngIf="modal_action == 'sold_out'">Sold out - {{selected_post['product_name']}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismissClicked()">
+        <ion-icon name="close-circle" style="color:red"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <span *ngIf="modal_action == 'remove'">
+    <ion-row>
+      <ion-item *ngFor="let remove_cv of remove_cvs; let remove_cv_index=index" style="width: 100%;" lines="none">
+        <ion-col size="2">
+          <ion-checkbox [(ngModel)]="remove_cvs[remove_cv_index]['checked']"></ion-checkbox>
+        </ion-col>
+        <ion-col>
+          <ion-label>{{remove_cv['name']}}</ion-label>
+        </ion-col>
+      </ion-item>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item style="border: 1px solid black; width: 100%;">
+          <ion-label position="stacked">Notes</ion-label>
+          <ion-textarea [(ngModel)]="notes"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </span>
+  <span *ngIf="modal_action == 'sold_out'">
+    <ion-row *ngFor="let question of sold_out_questions">
+      <ion-col size="12">
+        {{question}}
+      </ion-col>
+      <ion-col>
+        <ion-radio-group [(ngModel)]="selected_sold_out_answers[question]">
+          <ion-row>
+            <ion-col *ngFor="let answer of sold_out_answers[question]">
+              <ion-item lines="none">
+                <ion-radio [value]="answer" slot="end"></ion-radio>
+                <ion-label>{{answer['answer']}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item style="border: 1px solid black; width: 100%;">
+          <ion-label position="stacked">Notes</ion-label>
+          <ion-textarea [(ngModel)]="notes"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </span>
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col style="text-align: center;">
+      <ion-button (click)="removeActionClicked()" *ngIf="modal_action == 'remove'">Confirm</ion-button>
+      <ion-button (click)="soldOutActionClicked()" *ngIf="modal_action == 'sold_out'">Confirm</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Post list</ion-title>
+  </ion-toolbar>
+  <ion-fab vertical="top" horizontal="end">
+    <ion-fab-button (click)="addNewProductClicked()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let post of post_list">
+    <ion-row>
+      <ion-col>
+        Product name : {{post['product_name']}}<br>
+        Post date : {{post['post_date']}}<br>
+        Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date']}}</span>
+        <span *ngIf="post['expiry_date'] ==null">Not Available</span>
+      </ion-col>
+      <ion-col size="2">
+        <ion-icon name="create" style="font-size: 25px;" (click)="postEditClicked(post)"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <hr style="border-width: 0.2px;">
+    <!-- <ion-row> -->
+    <ion-button style="text-align: left;" fill="clear" (click)="removeOrSoldOutClicked(post, 'remove')">Remove
+    </ion-button>
+    <ion-button style="text-align: right;" fill="clear" (click)="removeOrSoldOutClicked(post, 'sold_out')">Sold out
+    </ion-button>
+    <!-- </ion-row> -->
+  </ion-card>
+</ion-content>

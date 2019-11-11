@@ -1,0 +1,206 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="form_action == 'register'">Register - {{selected_product['name']}}</ion-title>
+    <ion-title *ngIf="form_action == 'edit'">Edit - {{selected_product['product_name']}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <form [formGroup]="register_form" style="padding: 5px;">
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none"
+            [style.border]="register_form.value.sale_type_id == null  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Type of sale<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select formControlName="sale_type_id" interface="popover">
+              <ion-select-option *ngFor="let type of sale_type" [value]="type.id">
+                {{type.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none"
+            [style.border]="register_form.value.product_type_id == null  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Type of product<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select formControlName="product_type_id" interface="popover">
+              <ion-select-option *ngFor="let type of product_type" [value]="type.id">
+                {{type.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-item style="border: 1px solid lightgrey;">
+            <ion-label position="stacked">Variety
+            </ion-label>
+            <ion-input formControlName="variety"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item [style.border]="register_form.value.grade_id == null  ? '1px solid red' : '1px solid lightgrey'"
+            lines="none">
+            <ion-label position="stacked">Grade<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select formControlName="grade_id" interface="popover">
+              <ion-select-option [value]="0">N/A</ion-select-option>
+              <ion-select-option *ngFor="let grade of grades" [value]="grade.id">
+                {{grade.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-item
+            [style.border]="register_form.value.quantity == null || register_form.value.quantity == ''  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Quantity<ion-icon name="star" style="color: red;"></ion-icon>
+            </ion-label>
+            <ion-input formControlName="quantity" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item [style.border]="register_form.value.unit_id == null  ? '1px solid red' : '1px solid lightgrey'"
+            lines="none">
+            <ion-label position="stacked">Unit<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select formControlName="unit_id" interface="popover">
+              <ion-select-option *ngFor="let unit of units" [value]="unit.id">
+                {{unit.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-item style="border: 1px solid lightgrey;">
+            <ion-label position="stacked">Price per unit
+            </ion-label>
+            <ion-input formControlName="price" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+        <!-- <ion-col *ngIf="register_form.value.sale_type_id == 1">
+          <ion-item
+            [style.border]="register_form.value.price == null || register_form.value.price == ''  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Wholesale Price<ion-icon name="star" style="color: red;"></ion-icon>
+            </ion-label>
+            <ion-input formControlName="price" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="register_form.value.sale_type_id == 2">
+          <ion-item
+            [style.border]="register_form.value.price == null || register_form.value.price == ''  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Retail Price<ion-icon name="star" style="color: red;"></ion-icon>
+            </ion-label>
+            <ion-input formControlName="price" type="number"></ion-input>
+          </ion-item>
+        </ion-col> -->
+      </ion-row>
+
+      <ion-row class="align-items-center">
+        <ion-col>
+          <ion-item
+            [style.border]="register_form.value.availability_date == null || register_form.value.availability_date == ''  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked" class="bold-text">Date of availability<ion-icon name="star"
+                style="color: red">
+              </ion-icon>
+            </ion-label>
+            <ion-input formControlName="availability_date" type="date" required (ionChange)="availabilityDateChanged()">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="align-items-center">
+        <ion-col>
+          <ion-item style="border: 1px solid lightgrey;">
+            <ion-label position="stacked" class="bold-text">Date of expiry
+            </ion-label>
+            <ion-input formControlName="expiry_date" type="date">
+            </ion-input>
+            <div style="font-style: italic; font-size: small; color: red;"
+              *ngIf="register_form.controls.expiry_date.errors !== null">
+              {{register_form.controls.expiry_date.errors['error']}}
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size="1" *ngIf="register_form.value.expiry_date != null">
+          <ion-icon name="close-circle" style="font-size: 25px ; margin-top:25px; color: red;"
+            (click)="removeExpiryDateClicked()"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-item style="border: 1px solid lightgrey;">
+            <ion-label position="stacked">Notes
+            </ion-label>
+            <ion-textarea formControlName="notes"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-card style="border: solid 1px;border-radius: 15px;">
+        <ion-row (click)="choosePicture()">
+          <ion-col size="6">
+            <p style="margin-left: 7% ;font-size: 20px;">Select a photo</p>
+          </ion-col>
+          <ion-col size="6">
+            <span>
+              <ion-icon name="camera" style="font-size: 65px;padding-left:65px">
+              </ion-icon>
+            </span>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-left: 11px;margin-bottom: 10px;">
+          <ion-col size="3" *ngFor="let picture of post_pictures_list; let index=index">
+            <ion-icon name="close-circle" class="icon-cross" (click)="removeSelectedPic(index)" style="color:red">
+            </ion-icon>
+            <img [src]="picture" style="width: 55px;height: 45px;" alt="image">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-row>
+        <ion-col size="2">
+          <ion-toggle color="primary" formControlName="terms_and_conditions"></ion-toggle>
+        </ion-col>
+        <ion-col style="margin-top: 9px;">Accept <span style="text-decoration: underline;">Terms and conditions</span>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row class="ion-align-items-center">
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-button class="activated" [disabled]="!register_form.valid" type="submit" (click)="registerSell()">
+            Register
+          </ion-button>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row> -->
+    </form>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-row class="ion-align-items-center">
+    <ion-col></ion-col>
+    <ion-col>
+      <ion-button class="activated" [disabled]="!register_form.valid" type="submit" *ngIf="form_action == 'register'"
+        (click)="registerSell()">Register
+      </ion-button>
+      <ion-button class="activated" [disabled]="!register_form.valid" type="submit" *ngIf="form_action == 'edit'"
+        (click)="updateSell()">Update
+      </ion-button>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,53 @@
+import { Component, OnInit } from '@angular/core';
+import { DataTransferService } from 'src/app/services/data-transfer.service';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { HttpService } from 'src/app/http.service';
+
+@Component({
+  selector: 'app-product',
+  templateUrl: './product.page.html',
+  styleUrls: ['./product.page.scss'],
+})
+export class ProductPage implements OnInit {
+  product_sub_category: any;
+  page_action: string;
+  products: any;
+  available_product_count: any;
+
+  constructor(private dataTransfer: DataTransferService, private router: Router, private navCtrl: NavController, private httpService: HttpService) {
+    this.product_sub_category = this.dataTransfer.selected_product_sub_category;
+    console.log(this.product_sub_category);
+    let url = this.router.url;
+    if (url.includes('sell')) {
+      this.page_action = 'sell';
+    } else {
+      this.page_action = 'buy';
+    }
+
+    console.log(this.page_action);
+    let data_dict = {
+      'sub_category_id': this.product_sub_category['id']
+    };
+    this.httpService.serveProduct(data_dict).subscribe((data) => {
+      console.log(data);
+      this.products = data['product'];
+      this.available_product_count = data['count']
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
+  productClicked(product) {
+    this.dataTransfer.selectedProduct(product);
+    if (this.page_action === 'sell') {
+      this.navCtrl.navigateForward('sell/register');
+    } else if (this.page_action === 'buy') {
+      this.navCtrl.navigateForward('buy/list');
+    }
+  }
+
+  ngOnInit() {
+  }
+
+}

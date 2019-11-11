@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="selected_product_details!=null">{{selected_product_details['product_name']}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row style="text-align: center;">
+    <ion-col style="text-align: center; margin-top: 10px;"> Product Details</ion-col>
+    <ion-slides pager="true" [options]="slideImageOpts" *ngIf="product_images != null">
+      <ion-slide *ngFor="let product_image of product_images">
+        <img style="height: 140px;" src="{{ product_image['image'] }}">
+      </ion-slide>
+    </ion-slides>
+  </ion-row>
+  <ion-row style="text-align: center;">
+    <ion-col>
+      <ion-label class="bold-text">Date</ion-label><br>
+      <span>{{selected_product_details['post_date']}}</span>
+    </ion-col>
+    <ion-col>
+      <ion-chip>{{selected_product_details['sale_type']}}</ion-chip>
+    </ion-col>
+  </ion-row>
+  <ion-row style="text-align: center;">
+    <ion-col>
+      <ion-label class="bold-text">Quantity</ion-label><br>
+      <span>{{selected_product_details['quantity']}} {{selected_product_details['unit_name']}}</span>
+    </ion-col>
+    <ion-col>
+      <ion-label class="bold-text">Price</ion-label><br>
+      <span>{{selected_product_details['per_unit_price']}} Rs / {{selected_product_details['unit_name']}}</span>
+    </ion-col>
+  </ion-row>
+  <ion-row style="text-align: center;">
+    <ion-col *ngIf="selected_product_details['variety']!=null">
+      <ion-label class="bold-text">Variety</ion-label><br>
+      <span>{{selected_product_details['variety']}}</span>
+    </ion-col>
+    <ion-col *ngIf="selected_product_details['grade_name']!=null">
+      <ion-label class="bold-text">Grade</ion-label><br>
+      <span>{{selected_product_details['grade_name']}}</span>
+    </ion-col>
+    <ion-col *ngIf="selected_product_details['product_type_name']!=null">
+      <ion-label class="bold-text">Product type</ion-label><br>
+      <span>{{selected_product_details['product_type_name']}}</span>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="selected_product_details['notes']!=null" style="text-align: center;">
+    <ion-col class="bold-text">Notes :</ion-col>
+    <ion-col>{{selected_product_details['notes']}}</ion-col>
+  </ion-row>
+  <hr style="border-width: 1px;">
+  <ion-row>
+    <ion-col size="12" style="text-align: center; margin-top: 10px;"> Seller Details</ion-col>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Name :</ion-col>
+    <ion-col size="5">{{selected_product_details['first_name']}} {{selected_product_details['last_name']}}</ion-col>
+  </ion-row>
+  <ion-row *ngIf="selected_product_details['company_name']!=null">
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Company name :</ion-col>
+    <ion-col size="5">{{selected_product_details['company_name']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">State :</ion-col>
+    <ion-col size="5">{{selected_product_details['state']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">District :</ion-col>
+    <ion-col size="5">{{selected_product_details['district']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Phone number :</ion-col>
+    <ion-col size="5">{{selected_product_details['mobile']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Email :</ion-col>
+    <ion-col size="5">{{selected_product_details['email']}}</ion-col>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col style="text-align: center;">
+      <ion-button (click)="sendEnquiryClicked()">Send enquiry</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Send Enquiry</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-circle" style="color:red"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <span *ngIf="user_profile !=null">
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="5">Name :</ion-col>
+      <ion-col size="5">{{user_first_name}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="5">Email :</ion-col>
+      <ion-col size="5">{{user_email}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="5">Mobile :</ion-col>
+      <ion-col size="5">{{user_profile['mobile']}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="5">District :</ion-col>
+      <ion-col size="5">{{user_profile['district']}}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="user_profile['company_name']!=null">
+      <ion-col size="1"></ion-col>
+      <ion-col size="5">Company name :</ion-col>
+      <ion-col size="5">{{user_profile['company_name']}}</ion-col>
+    </ion-row>
+  </span>
+  <form [formGroup]="enquiry_form">
+    <ion-row>
+      <ion-col>
+        <ion-item style="border: 1px solid grey;">
+          <ion-label position="stacked">Type of purchase<ion-icon name="star" style="color: red"></ion-icon>
+          </ion-label>
+          <ion-select interface="popover" formControlName="purchase_type_id">
+            <ion-select-option *ngFor="let type of sale_types" [value]="type.id">
+              {{type['name']}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item style="border: 1px solid grey;">
+          <ion-label position="stacked">Enquiry note<ion-icon name="star" style="color: red"></ion-icon>
+          </ion-label>
+          <ion-textarea rows="4" formControlName="enquiry_note"></ion-textarea>
+          <div style="font-style: italic; font-size: small; color: red;"
+            *ngIf="enquiry_form.controls.enquiry_note.errors !== null">
+            {{enquiry_form.controls.enquiry_note.errors['error']}}
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="2">
+        <ion-toggle color="primary" formControlName="terms_and_conditions"></ion-toggle>
+      </ion-col>
+      <ion-col style="margin-top: 9px;">Accept <span style="text-decoration: underline;">Terms and conditions</span>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col style="text-align: center;">
+      <ion-button (click)="submitClicked()" [disabled]="!enquiry_form.valid">Submit</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

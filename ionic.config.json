@@ -1,0 +1,7 @@
+{
+  "name": "agri-market-platform",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

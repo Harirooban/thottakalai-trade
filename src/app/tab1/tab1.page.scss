@@ -1,0 +1,119 @@
+.welcome-card img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+// .dashboard-tile {
+//   border: solid 1px transparent;
+//   background-color: transparent;
+//   padding-top: 20px;
+// }
+
+// .dashboard-tile-iconspan {
+//   padding-left: 0px;
+// }
+
+// .dashboard-grid {
+//   padding-top: 0;
+// }
+
+// .dashboard-tile-icon {
+//   width: 65%;
+//   margin-left: 10%;
+// }
+
+// .dashboard-tile-icon-title {
+//   text-align: center;
+//   color: #CC0033;
+//   white-space: normal;
+// }
+
+.dashboard-grid {
+  padding: 0%;
+  margin-top: 1%;
+  //background: url(../../assets/backgrounds/2.jpg);
+}
+
+.dashboard-tile {
+  border: solid 3px #F3F3F3;
+  background-color: whitesmoke;
+  padding-top: 10px;
+  height: 100px;
+  margin-top: 3px;
+}
+
+.dashboard-tile-iconspan {
+  padding-top: 40px;
+  padding-left: 40px;
+}
+
+.dashboard-tile-icon {
+  width: 50px;
+  height: 50px;
+  padding: 0px;
+}
+
+.dashboard-title-text {
+  text-align: center;
+  width: 90%;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+
+
+.icon-one {
+  background-color: #CCDDB8;
+}
+
+.icon-two {
+  background-color: #FBE6CB;
+}
+
+.icon-three {
+  background-color: #C3D2D9;
+}
+
+// for input blue line removal
+  // .item-interactive {
+  //   --border-width: 0;
+  // }
+
+  // .item-interactive.item-has-focus {
+  //   --highlight-background: none;
+  // }
+
+  .footer-call-a {
+    text-decoration: none;
+    color: black;
+    padding-top: 1px;
+  }
+
+  .footer-chip {
+    margin: 0;
+  }
+
+  .footer-icon {
+    color: black;
+    padding-right: 5px
+  }
+
+  .button-color{
+    --background: #6bdad6;
+    height: 30px;
+    font-size: 14px;
+    color: black;
+    text-transform: capitalize;
+  }
+
+  .label-size {
+    margin-left: 10px;
+    margin-bottom: -2px;
+  }
+  
+  .icon-size {
+    color:red;
+    font-size: 18px;
+  }

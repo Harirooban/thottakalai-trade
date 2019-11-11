@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar style="--min-height: 35px;">
+    <ion-title>Filter By:</ion-title>
+    <ion-buttons slot=end>
+      <ion-button (click)="clearClicked()" style="text-transform: capitalize;">Clear All</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let filter_option of filter_options; let filter_option_index=index; let odd_index=odd" lines="full"
+    style="margin: 0% 1%">
+    <ion-list-header (click)="onGroupSelected(filter_option_index)">
+      <ion-icon src="assets/svg/filter.svg" *ngIf="product_filter[filter_option]['is_clicked']"
+        (click)="clearSelectedFilter(filter_option)"></ion-icon>
+      <span>{{filter_option}}</span>
+      <ion-icon mode="ios" style="float:right; font-size: 19px"
+        [name]="selected_index.includes(filter_option_index) ?  'arrow-down': 'arrow-forward'"></ion-icon>
+    </ion-list-header>
+    <span *ngIf="selected_index.includes(filter_option_index)">
+      <span *ngIf="product_filter[filter_option]['type'] == 'checkbox'">
+        <ion-row *ngFor="let sub_filter of product_filter[filter_option]['choices']">
+          <ion-col>
+              {{sub_filter['name']}}
+            <!-- <ion-label style="white-space: normal;"></ion-label> -->
+          </ion-col>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-checkbox slot="end" color="dark" [value]="sub_filter"
+                [(ngModel)]="sub_filter['checked']"
+                (click)="onFilterOptionClicked(filter_option, product_filter[filter_option]['type'], sub_filter)">
+              </ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </span>
+      <span *ngIf="product_filter[filter_option]['type'] == 'dropdown'">
+        <ion-item lines="none">
+          <ion-select style="max-width: 100%;" multiple="true" [(ngModel)]="product_filter[filter_option]['value']"
+            (ionChange)="onFilterOptionClicked(filter_option, product_filter[filter_option]['type'])"
+            placeholder="Select district">
+            <ion-select-option *ngFor="let sub_filter of product_filter[filter_option]['choices']"
+              [value]="sub_filter['name']">{{sub_filter['name']}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </span>
+      <!-- <span *ngIf="sub_filters[filter_option]['type'] == 'searchbar'">
+          <ion-searchbar animated="true" mode="ios" [(ngModel)]="crop_value" placeholder="Search Crops"
+            (ionInput)="getItems($event)" #filter_term (ionClear)="cancelClicked()"></ion-searchbar>
+          <ion-list *ngIf="isItemAvailable">
+            <ion-item *ngFor="let crop of crop_items | cropFilter: filter_term.value ;"
+              (click)="cropSelected(crop, filter_option, 'add')">
+              {{ crop['name'] }}
+            </ion-item>
+          </ion-list>
+          <ion-row>
+            <ion-col *ngFor="let crop of sub_filters[filter_option]['value'];  let crop_index = index">
+              <ion-chip>{{ crop['name'] }} <ion-icon name="close"
+                  (click)="cropSelected(crop, filter_option, 'remove', crop_index)"></ion-icon>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </span>
+        <span *ngIf="sub_filters[filter_option]['type'] == 'radio'">
+          <ion-radio-group>
+            <ion-row *ngFor="let sub_filter of sub_filters[filter_option]['choices']">
+              <ion-item>
+                <ion-label style="white-space: normal;">{{sub_filter['name']}}</ion-label>
+                <ion-radio style="margin: 0%; margin-right: 8px;" slot="end" color="dark" [value]="sub_filter"
+                  [checked]="sub_filter['checked']"
+                  (click)="onFilterOptionClicked(filter_option, sub_filters[filter_option]['type'], sub_filter)">
+                </ion-radio>
+              </ion-item>
+            </ion-row>
+          </ion-radio-group>
+        </span>
+        <span *ngIf="sub_filters[filter_option]['type'] == 'toggle'">
+          <ion-row *ngFor="let sub_filter of sub_filters[filter_option]['choices']">
+            <ion-item lines="none">
+              <ion-label style="white-space: normal;">{{sub_filter['name']}}</ion-label>
+              <ion-toggle color="dark" [(ngModel)]="sub_filter['checked']" [disabled]="sub_filter['disabled']"
+                (click)="onFilterOptionClicked(filter_option, sub_filters[filter_option]['type'], sub_filter)">
+              </ion-toggle>
+            </ion-item>
+          </ion-row>
+        </span> -->
+    </span>
+  </ion-list>
+</ion-content>

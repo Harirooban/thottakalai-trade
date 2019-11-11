@@ -1,0 +1,252 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-circle" style="color:red"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides [options]="slideOpts" #register_slide>
+    <ion-slide>
+      <ion-row>
+        <div style="padding: 10px;margin-left: 10%;font-size: 22px;"> I am,</div>
+        <ion-col size="12" *ngFor="let type of trade_user_type">
+          <ion-button (click)="userTypeClicked(type.id)">{{type['name']}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <!-- Farmer Basic Detail (First Name, Last Name etc)-->
+    <ion-slide>
+      <form [formGroup]="register_form_basic" style="width: 100%">
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.phone == null || register_form_basic.value.phone == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Mobile Number<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="phone" type="number" [disabled]="is_phone_editable"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <div style="padding: 10px" *ngIf="is_otp_visible">
+          <ion-row>
+            <ion-col>
+              <span>Pleaser enter the OTP code sent to your mobile number.</span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item style="border:3px solid lightgray">
+                <ion-input type="number" formControlName="otp"
+                  style="text-align: center; font-size: 25px;letter-spacing: 7px;font-weight: bold;"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button (click)="navigateToNameForm()">Confirm</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+
+          </ion-row>
+        </div>
+        <ion-row class="ion-align-items-center" *ngIf="!is_otp_visible">
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button class="activated" [disabled]="register_form_basic.controls.phone.valid  ? 'false' : 'true'"
+              type="submit" (click)="checkTraderExists()">Next
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <form [formGroup]="register_form_basic">
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.first_name == null || register_form_basic.value.first_name == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">First Name<ion-icon name="star" style="color: red;"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="first_name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.last_name == null || register_form_basic.value.last_name == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Last Name<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="last_name"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.email == null || register_form_basic.value.email == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Email<ion-icon name="star" style="color: red;"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="email" type="email"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.type_of_trader == null  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Type of trader<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="type_of_trader" interface="popover" (ionChange)="traderTypeChanged()">
+                <ion-select-option *ngFor="let type of trader_type_cv" [value]="type.id">
+                  {{type.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center" *ngIf="show_company_name">
+          <ion-col>
+            <ion-item style="border: 1px solid lightgrey;">
+              <ion-label position="stacked">Company name
+              </ion-label>
+              <ion-input formControlName="company_name" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button class="activated" [disabled]="checkNameFormValid()" type="submit"
+              (click)="navigateSlideToForward()">Next
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <form [formGroup]="register_form_basic" style="width: 100%">
+        <ion-row class="ion-align-items-center" *ngIf="states != null">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.state == null  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">State<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="state" interface="popover">
+                <ion-select-option *ngFor="let state of states" [value]="state.id">
+                  {{state.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center" *ngIf="districts != null">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.district == null || register_form_basic.value.district == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">District<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="district" interface="popover">
+                <ion-select-option *ngFor="let district of districts[register_form_basic.value.state]"
+                  [value]="district.id">
+                  {{district.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.city == null || register_form_basic.value.city == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">City<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="city" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row> -->
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.address == null || register_form_basic.value.address == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Address<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-textarea formControlName="address" type="text"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.pincode == null || register_form_basic.value.pincode == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Pincode<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-input type="number" formControlName="pincode"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button class="activated" [disabled]="checkAddressFormValid()" type="submit"
+              (click)="navToPasswordSlide()">Next
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <form [formGroup]="register_form_basic" style="width: 100%">
+        <ion-row>
+          <ion-col>
+            <ion-label>Your Username: {{register_form_basic.value.phone}}</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.password == null || register_form_basic.value.password == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Create your password</ion-label>
+              <ion-input formControlName="password" type={{new_pass_type}}></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" style="text-align: center">
+            <ion-icon style="font-size: 25px; margin-top: 17px;" [name]="new_pass_type == 'password'? 'eye':'eye-off'"
+              (click)="showNewPassword()"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="register_form_basic.value.confirm_password == null || register_form_basic.value.confirm_password == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Confirm Password</ion-label>
+              <ion-input formControlName="confirm_password" type={{confirm_pass_type}} (ionChange)="confirmPassword()">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" style="text-align: center">
+            <ion-icon style="font-size: 25px; margin-top: 25px;"
+              [name]="confirm_pass_type == 'password'? 'eye':'eye-off'" (click)="showConfirmPassword()"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <div style="font-size:12px; color: red">{{alert}}</div>
+        <ion-row class="ion-align-items-center">
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button class="activated" [disabled]="checkPasswordFormValid()" type="submit"
+              (click)="registerClicked()">Submit
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </form>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
