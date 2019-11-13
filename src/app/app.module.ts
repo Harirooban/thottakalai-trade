@@ -22,12 +22,12 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { RegisterPage } from './login/register/register.page';
 import { SendEnquiryPage } from './buy/send-enquiry/send-enquiry.page';
 import { ProductFilterPage } from './buy/product-filter/product-filter.page';
-import { from } from 'rxjs';
 import { PostRemoveAndSoldOutPage } from './manage-post/post-remove-and-sold-out/post-remove-and-sold-out.page';
+import { PreviewRegisterPage } from './sell/preview-register/preview-register.page';
 
 @NgModule({
-  declarations: [AppComponent, RegisterPage, SendEnquiryPage, ProductFilterPage, PostRemoveAndSoldOutPage],
-  entryComponents: [RegisterPage, SendEnquiryPage, ProductFilterPage, PostRemoveAndSoldOutPage],
+  declarations: [AppComponent, RegisterPage, SendEnquiryPage, ProductFilterPage, PostRemoveAndSoldOutPage, PreviewRegisterPage],
+  entryComponents: [RegisterPage, SendEnquiryPage, ProductFilterPage, PostRemoveAndSoldOutPage, PreviewRegisterPage],
   imports: [BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { HttpService } from 'src/app/http.service';
 import { NavController } from '@ionic/angular';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-product-sub-category',
@@ -15,7 +16,8 @@ export class ProductSubCategoryPage implements OnInit {
   product_sub_category: Object;
   available_product_sub_category: any;
 
-  constructor(private router: Router, private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController) {
+  constructor(private router: Router, private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController,
+    public global: GlobalService) {
     this.product_category = this.dataTransfer.selected_product_category;
     console.log(this.product_category);
     let url = this.router.url;

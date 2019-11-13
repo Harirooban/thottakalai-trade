@@ -4,13 +4,32 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="selected_product != null">{{selected_product['name']}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="global.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-row style="text-align: right;">
-    <ion-col>
-      <ion-button (click)="filterClicked($event)">Apply Filter</ion-button>
+  <ion-row>
+    <ion-col style="margin-top: 10px;">
+      <div *ngIf="filter_data!=null">
+        <span *ngFor="let key of filter_keys" style="font-size: 14px;">
+          <ion-label *ngIf="applied_filter_dict[key].length != 0"><span class="bold-text">{{key}}:</span>
+            <span *ngFor="let value of applied_filter_dict[key]; let last_index=last" style="font-style: italic;">
+              {{value}}<span *ngIf="!last_index">,</span>
+            </span> &nbsp;
+          </ion-label>
+        </span>
+      </div>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button (click)="filterClicked($event)" size="small" fill="clear"
+        style="border-radius: 25px;border: 1px solid blue;width: 45px;height: 45px;background: blue;">
+        <ion-icon src="assets/svg/filter.svg" style="color: white;"></ion-icon>
+      </ion-button>
     </ion-col>
   </ion-row>
   <ion-card *ngFor="let product of post_product_list">
@@ -28,7 +47,11 @@
           <ion-col class="bold-text">Seller Name :</ion-col>
           <ion-col>{{product['first_name']}} <br>{{product['district']}}</ion-col>
           <ion-col size="2" style="margin-left: -16%;">
-            <ion-chip class="rotate_text">{{product['sale_type']}}</ion-chip>
+            <ion-chip class="rotate_text">
+              <span *ngIf="product.sale_type == 'Wholesale'">Whole<br>sale</span>
+              <span *ngIf="product.sale_type == 'Retail'">Retail</span>
+              <!-- {{product['sale_type']}} -->
+            </ion-chip>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="product['variety'] != null" style="margin-top: -4% ;">
@@ -39,9 +62,9 @@
           <ion-col class="bold-text">Product type :</ion-col>
           <ion-col>{{product['product_type_name']}}</ion-col>
         </ion-row>
-        <ion-row style="margin-top: -4% ;">
-          <ion-col class="bold-text">Posted :</ion-col>
-          <ion-col>{{product['post_date'] | timeDiffInYears}}</ion-col>
+        <ion-row style="margin-top: -4% ;" *ngIf="product.post_date > today">
+          <ion-col class="bold-text">Available from :</ion-col>
+          <ion-col>{{product['post_date']}}</ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -52,12 +75,18 @@
           {{product['per_unit_price']}} Rs / {{product['unit_name']}}
         </span>
         <span *ngIf="product['per_unit_price']==null">
-          Not available
+          -
         </span>
       </ion-col>
-      <ion-col>
-        <ion-button fill="clear" style="margin-top: -3%; background: #3880ff;border-radius: 25px;color: white;"
-          (click)="makeEnquiryClicked(product)">Make enquiry</ion-button>
+      <ion-col size="3">
+        <span *ngIf="product['is_active'] && !product['is_sold']" style="color: green;">Available</span>
+        <span *ngIf="!product['is_active'] && product['is_sold']" style="color: red;">Sold out</span>
+      </ion-col>
+      <ion-col style="text-align: center;" size="4">
+        <ion-button fill="clear" style="background: #3880ff;border-radius: 25px;color: white;"
+          (click)="makeEnquiryClicked(product)" size="small">enquiry</ion-button><br>
+        <span
+          style="font-style: italic;font-size: 11px;">{{product['time_created'] | timeDiffInYears}}</span>
       </ion-col>
     </ion-row>
   </ion-card>

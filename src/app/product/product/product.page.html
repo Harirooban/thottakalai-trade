@@ -4,18 +4,23 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="product_sub_category!=null">{{product_sub_category['name']}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="global.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-row>
     <ion-col *ngFor="let product of products" size="6">
-      <ion-card (click)="productClicked(product)">
+      <ion-card (click)="productClicked(product)" style="height: 82%; font-size: 21px;">
         <ion-row>
-          <ion-col size="2">
+          <ion-col size="2" style="width: 21px;">
             <ion-img src="assets/plant_icons/Apple.svg"></ion-img>
           </ion-col>
-          <ion-col>
+          <ion-col style="margin-left: 5px;">
             {{product['name']}}
           </ion-col>
           <ion-col size="2" style="float: left;" *ngIf="page_action == 'buy'">

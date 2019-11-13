@@ -5,6 +5,11 @@
     </ion-buttons>
     <ion-title *ngIf="form_action == 'register'">Register - {{selected_product['name']}}</ion-title>
     <ion-title *ngIf="form_action == 'edit'">Edit - {{selected_product['product_name']}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="globalService.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,9 +23,11 @@
             <ion-label position="stacked">Type of sale<ion-icon name="star" style="color: red"></ion-icon>
             </ion-label>
             <ion-select formControlName="sale_type_id" interface="popover">
-              <ion-select-option *ngFor="let type of sale_type" [value]="type.id">
-                {{type.name}}
-              </ion-select-option>
+              <span *ngFor="let type_id of sale_type_ids">
+                <ion-select-option [value]="sale_type[type_id]['id']">
+                  {{sale_type[type_id]['name']}}
+                </ion-select-option>
+              </span>
             </ion-select>
           </ion-item>
         </ion-col>
@@ -32,9 +39,11 @@
             <ion-label position="stacked">Type of product<ion-icon name="star" style="color: red"></ion-icon>
             </ion-label>
             <ion-select formControlName="product_type_id" interface="popover">
-              <ion-select-option *ngFor="let type of product_type" [value]="type.id">
-                {{type.name}}
-              </ion-select-option>
+              <span *ngFor="let type_id of product_type_ids">
+                <ion-select-option [value]="product_type[type_id]['id']">
+                  {{product_type[type_id]['name']}}
+                </ion-select-option>
+              </span>
             </ion-select>
           </ion-item>
         </ion-col>
@@ -78,9 +87,11 @@
             <ion-label position="stacked">Unit<ion-icon name="star" style="color: red"></ion-icon>
             </ion-label>
             <ion-select formControlName="unit_id" interface="popover">
-              <ion-select-option *ngFor="let unit of units" [value]="unit.id">
-                {{unit.name}}
-              </ion-select-option>
+              <span *ngFor="let type_id of unit_ids">
+                <ion-select-option [value]="units[type_id]['id']">
+                  {{units[type_id]['name']}}
+                </ion-select-option>
+              </span>
             </ion-select>
           </ion-item>
         </ion-col>

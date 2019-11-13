@@ -11,7 +11,7 @@
   <ion-list *ngFor="let filter_option of filter_options; let filter_option_index=index; let odd_index=odd" lines="full"
     style="margin: 0% 1%">
     <ion-list-header (click)="onGroupSelected(filter_option_index)">
-      <ion-icon src="assets/svg/filter.svg" *ngIf="product_filter[filter_option]['is_clicked']"
+      <ion-icon name="close-circle" style="font-size: 18px;" *ngIf="product_filter[filter_option]['is_clicked']"
         (click)="clearSelectedFilter(filter_option)"></ion-icon>
       <span>{{filter_option}}</span>
       <ion-icon mode="ios" style="float:right; font-size: 19px"
@@ -20,7 +20,7 @@
     <span *ngIf="selected_index.includes(filter_option_index)">
       <span *ngIf="product_filter[filter_option]['type'] == 'checkbox'">
         <ion-row *ngFor="let sub_filter of product_filter[filter_option]['choices']">
-          <ion-col>
+          <ion-col style="margin-top: 16px; margin-left: 12px;">
               {{sub_filter['name']}}
             <!-- <ion-label style="white-space: normal;"></ion-label> -->
           </ion-col>

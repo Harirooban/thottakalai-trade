@@ -2,12 +2,13 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { HttpService } from 'src/app/http.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActionSheetController, Platform, LoadingController, AlertController, NavController } from '@ionic/angular';
+import { ActionSheetController, Platform, LoadingController, AlertController, NavController, ModalController } from '@ionic/angular';
 import { CameraProviderService } from 'src/app/services/camera-provider.service';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from 'src/app/global.service';
 import { RegisterSellValidators } from './register-sell-validator';
 import { Router } from '@angular/router';
+import { PreviewRegisterPage } from '../preview-register/preview-register.page';
 
 @Component({
   selector: 'app-register-sell',
@@ -23,10 +24,17 @@ export class RegisterSellPage implements OnInit {
   post_pictures_list: any[] = [];
   product_type: any;
   form_action = 'register';
+  sale_type_ids: any;
+  product_type_ids: string[];
+  unit_ids: string[];
+  user_profile: any;
+  user_first_name: any;
 
   constructor(private dataTransfer: DataTransferService, private httpService: HttpService, private formBuilder: FormBuilder, private storage: Storage, private alertController: AlertController,
     private actionsheetCtrl: ActionSheetController, private platform: Platform, private cameraProvider: CameraProviderService, private loadingCtrl: LoadingController,
-    private globalService: GlobalService, private router: Router, private ref: ChangeDetectorRef, private navCtrl: NavController) {
+    public globalService: GlobalService, private router: Router, private ref: ChangeDetectorRef, private navCtrl: NavController, private modalCtrl: ModalController) {
+    let today = new Date().toISOString().split('T')[0];
+    console.log(today)
     this.register_form = this.formBuilder.group({
       variety: [null, Validators.compose([])],
       sale_type_id: [null, Validators.compose([Validators.required])],
@@ -38,7 +46,7 @@ export class RegisterSellPage implements OnInit {
       notes: [null, Validators.compose([])],
       product_type_id: [null, Validators.compose([Validators.required])],
       terms_and_conditions: [null, Validators.compose([RegisterSellValidators.checkTermsAndConditions, Validators.required])],
-      availability_date: [null, Validators.compose([Validators.required])],
+      availability_date: [today, Validators.compose([Validators.required])],
       expiry_date: [null, Validators.compose([RegisterSellValidators.checkExpiryDate])],
     });
     this.storage.get('user_type').then((user_type) => {
@@ -46,6 +54,14 @@ export class RegisterSellPage implements OnInit {
       if (user_type === 'guest') {
         this.presentAlert();
       }
+    });
+    this.storage.get('user_first_name').then((user_first_name) => {
+      console.log(user_first_name);
+      this.user_first_name = user_first_name;
+    });
+    this.storage.get('user_profile').then((user_profile) => {
+      console.log(user_profile);
+      this.user_profile = user_profile;
     });
     let url = this.router.url;
     if (url.includes('edit')) {
@@ -104,9 +120,12 @@ export class RegisterSellPage implements OnInit {
     this.httpService.serveSaleTypeAndUnit(data_dict).subscribe((data) => {
       console.log(data);
       this.grades = data['grade'];
-      this.sale_type = data['sale_type'];
       this.units = data['unit'];
+      this.unit_ids = Object.keys(this.units);
       this.product_type = data['product_types'];
+      this.product_type_ids = Object.keys(this.product_type);
+      this.sale_type = data['sale_type'];
+      this.sale_type_ids = Object.keys(this.sale_type);
       if (this.form_action === 'edit') {
         this.setEditablePostData();
         this.ref.detectChanges();
@@ -148,19 +167,50 @@ export class RegisterSellPage implements OnInit {
     this.register_form.get('expiry_date').setValue(null);
   }
 
-  registerSell() {
-    let data_dict = {
-      'form_values': this.register_form.value,
-      'pictures': this.post_pictures_list
+  async registerSell() {
+    // let data_dict = {
+    //   'form_values': this.register_form.value,
+    //   'pictures': this.post_pictures_list
+    // };
+    console.log(this.register_form.value);
+    let temp_dict = {
+      'first_name': this.user_first_name,
+      'district': this.user_profile['district'],
+      'sale_type': this.sale_type[this.register_form.value.sale_type_id]['name'],
+      'variety': this.register_form.value.variety,
+      'product_type_name': this.product_type[this.register_form.value.product_type_id]['name'],
+      'post_date': this.register_form.value.availability_date,
+      'quantity': this.register_form.value.quantity,
+      'unit_name': this.units[this.register_form.value.unit_id]['name'],
+      'per_unit_price': this.register_form.value.price
     };
-    console.log(data_dict);
-    this.httpService.saveSalePost(data_dict).subscribe((data) => {
-      console.log(data);
-      this.globalService.displayToast('Your sale registered', 'middle', 2000);
-      this.globalService.onHomeClicked();
-    }, (error) => {
-      console.error(error);
+    if (this.post_pictures_list.length !== 0) {
+      temp_dict['image'] = this.post_pictures_list[0];
+    } else {
+      temp_dict['image'] = null;
+    }
+    console.log(temp_dict);
+    const modal = await this.modalCtrl.create({
+      component: PreviewRegisterPage,
+      componentProps: {
+        'form_values': this.register_form.value,
+        'pictures': this.post_pictures_list,
+        'temp_dict': temp_dict
+      },
+      cssClass: 'preview-post',
+      backdropDismiss: false
     });
+    modal.onDidDismiss().then((data) => {
+      console.log(data);
+    });
+    modal.present();
+    // this.httpService.saveSalePost(data_dict).subscribe((data) => {
+    //   console.log(data);
+    //   this.globalService.displayToast('Your sale registered', 'middle', 2000);
+    //   this.globalService.onHomeClicked();
+    // }, (error) => {
+    //   console.error(error);
+    // });
   }
 
   updateSell() {

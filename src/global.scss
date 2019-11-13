@@ -39,7 +39,19 @@ ion-modal.post-action {
   padding: 18vh 6vw;
 }
 
+ion-modal.preview-post {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  transition: opacity 0.25s ease-in-out;
+  padding: 28vh 6vw;
+}
+
 ion-popover.product-filter {
   --width: 250px;
   --max-height: 80%
+}
+
+ion-toolbar {
+  //--color: white;
+  --background: var(--ion-toolbar-background-color)
 }

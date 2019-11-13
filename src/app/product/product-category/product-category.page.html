@@ -23,12 +23,12 @@
   </form>
   <ion-row>
     <ion-col *ngFor="let product of product_category" size="6">
-      <ion-card (click)="productCategoryClicked(product)">
+      <ion-card (click)="productCategoryClicked(product)" style="height: 82%; font-size: 21px;">
         <ion-row>
-          <ion-col size="2">
+          <ion-col size="2" style="width: 21px;">
             <ion-img src="assets/plant_icons/Apple.svg"></ion-img>
           </ion-col>
-          <ion-col>
+          <ion-col style="margin-left: 5px;">
             {{product['name']}}
           </ion-col>
         </ion-row>

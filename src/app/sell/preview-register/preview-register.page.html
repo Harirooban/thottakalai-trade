@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Preview</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-circle" style="color:red"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="temp_values_for_display!=null">
+    <ion-row>
+      <ion-col size="3">
+        <ion-avatar *ngIf="temp_values_for_display['image'] != null">
+          <ion-img src="{{ temp_values_for_display['image'] }}"></ion-img>
+        </ion-avatar>
+        <ion-avatar *ngIf="temp_values_for_display['image'] == null">
+          <ion-img src="assets/plant_icons/Tomato.svg"></ion-img>
+        </ion-avatar>
+      </ion-col>
+      <ion-col>
+        <ion-row>
+          <ion-col class="bold-text">Seller Name :</ion-col>
+          <ion-col>{{temp_values_for_display['first_name']}} <br>{{temp_values_for_display['district']}}</ion-col>
+          <ion-col size="2" style="margin-left: -16%;">
+            <ion-chip class="rotate_text">
+              <span *ngIf="temp_values_for_display.sale_type == 'Wholesale'">Whole<br>sale</span>
+              <span *ngIf="temp_values_for_display.sale_type == 'Retail'">Retail</span>
+              <!-- {{temp_values_for_display['sale_type']}} -->
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="temp_values_for_display['variety'] != null" style="margin-top: -4% ;">
+          <ion-col class="bold-text">Variety :</ion-col>
+          <ion-col>{{temp_values_for_display['variety']}}</ion-col>
+        </ion-row>
+        <ion-row style="margin-top: -4% ;">
+          <ion-col class="bold-text">Product type :</ion-col>
+          <ion-col>{{temp_values_for_display['product_type_name']}}</ion-col>
+        </ion-row>
+        <ion-row style="margin-top: -4% ;">
+          <ion-col class="bold-text">Posted on:</ion-col>
+          <ion-col>{{temp_values_for_display['post_date'] | date}}</ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label class="bold-text">Quantity : </ion-label> {{temp_values_for_display['quantity']}}
+        {{temp_values_for_display['unit_name']}}<br>
+        <ion-label class="bold-text">Price : </ion-label><span *ngIf="temp_values_for_display['per_unit_price']!=null">
+          {{temp_values_for_display['per_unit_price']}} Rs / {{temp_values_for_display['unit_name']}}
+        </span>
+        <span *ngIf="temp_values_for_display['per_unit_price']==null">
+          Not available
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col style="text-align: right;">
+      <ion-button fill="clear" style="text-transform: initial; background: green;border-radius: 25px; color: white; "
+        (click)="confirmClicked()">Confirm</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

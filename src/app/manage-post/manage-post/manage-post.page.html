@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Post list</ion-title>
+    <ion-title>Product list</ion-title>
   </ion-toolbar>
   <ion-fab vertical="top" horizontal="end">
     <ion-fab-button (click)="addNewProductClicked()">
@@ -22,16 +22,33 @@
         Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date']}}</span>
         <span *ngIf="post['expiry_date'] ==null">Not Available</span>
       </ion-col>
-      <ion-col size="2">
-        <ion-icon name="create" style="font-size: 25px;" (click)="postEditClicked(post)"></ion-icon>
-      </ion-col>
     </ion-row>
     <hr style="border-width: 0.2px;">
-    <!-- <ion-row> -->
-    <ion-button style="text-align: left;" fill="clear" (click)="removeOrSoldOutClicked(post, 'remove')">Remove
-    </ion-button>
-    <ion-button style="text-align: right;" fill="clear" (click)="removeOrSoldOutClicked(post, 'sold_out')">Sold out
-    </ion-button>
-    <!-- </ion-row> -->
+    <ion-row style="text-align: center;" *ngIf="post.is_active && !post.is_sold">
+      <ion-col>
+        <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'remove')">
+          Remove
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'sold_out')">
+          Mark sold
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button size="small" style="text-transform: initial;" (click)="postEditClicked(post)">Edit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="text-align: center;">
+        <ion-label *ngIf="post.is_sold && !post.is_active ">
+          Product sold
+        </ion-label>
+        <ion-label *ngIf="!post.is_active && !post.is_sold">
+          Product Removed
+        </ion-label>
+      </ion-col>
+    </ion-row>
   </ion-card>
 </ion-content>

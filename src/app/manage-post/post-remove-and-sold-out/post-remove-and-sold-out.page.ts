@@ -46,6 +46,7 @@ export class PostRemoveAndSoldOutPage implements OnInit {
   ngOnInit() {
   }
 
+  // saving sale pose remove answers
   removeActionClicked() {
     let checked_ids = this.remove_cvs.reduce((a, element) => element.checked ? a.concat(element.id) : a, []);
     let data_dict = {
@@ -70,16 +71,37 @@ export class PostRemoveAndSoldOutPage implements OnInit {
     });
   }
 
+  // saving sold out question and answer details
   soldOutActionClicked() {
-    let data = []
+    let sold_out_data = []
     this.sold_out_questions.forEach(element => {
       if (this.selected_sold_out_answers[element] !== {} && this.selected_sold_out_answers[element] !== undefined) {
-        data.push(this.selected_sold_out_answers[element]);
+        sold_out_data.push(this.selected_sold_out_answers[element]);
       }
     });
-    console.log(this.selected_sold_out_answers);
-    console.log(data);
+    let data_dict = {
+      'post_id': this.selected_post['id'],
+      // 'checked_ids': checked_ids
+    };
+    if (sold_out_data.length !== 0) {
+      data_dict['sold_out_data'] = sold_out_data
+    }
+    if (this.notes !== null && this.notes !== '') {
+      data_dict['notes'] = this.notes;
+    }
+    console.log(data_dict);
+    this.httpService.saveSalePostSoldOutDetails(data_dict).subscribe(() => {
+      this.modalCtrl.dismiss({
+        'data': true
+      });
+      // this.presentAlert();
+    }, (error) => {
+      console.error(error);
+    });
+
   }
+
+
   async presentAlert() {
     const alert = await this.alertController.create({
       message: 'You removed <strong>' + this.selected_post['product_name'] + '</strong> from your post. <br><br> If you want to add other products?',

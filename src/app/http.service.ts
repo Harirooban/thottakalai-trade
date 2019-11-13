@@ -122,8 +122,19 @@ export class HttpService {
     return this.httpClient.get(this.global.server_url + 'trade/serve/sale/post/for/seller/', { headers: this.headers });
   }
 
-
   saveSalePostRemoveDetails(data) {
     return this.httpClient.post(this.global.server_url + 'trade/save/sale/post/remove/details/', data, { headers: this.headers });
+  }
+
+  saveSalePostSoldOutDetails(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/save/sale/post/sold/out/details/', data, { headers: this.headers });
+  }
+
+  updateUserProfile(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/update/user/profile/', data, { headers: this.headers });
+  }
+
+  serveUserProfileData() {
+    return this.httpClient.get(this.global.server_url + 'trade/serve/user/profile/data/', { headers: this.headers });
   }
 }

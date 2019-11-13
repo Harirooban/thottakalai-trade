@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/http.service';
 import { NavController, PopoverController, Events } from '@ionic/angular';
 import { ProductFilterPage } from '../product-filter/product-filter.page';
 import { Storage } from '@ionic/storage';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-buy-list',
@@ -17,9 +18,11 @@ export class BuyListPage implements OnInit {
   filter_data: any;
   filter_keys: any;
   data_before_filter: any;
+  applied_filter_dict: any = {};
+  today: any;
 
   constructor(private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController,
-    private popOverCtrl: PopoverController, private storage: Storage, private events: Events) {
+    private popOverCtrl: PopoverController, private storage: Storage, private events: Events, public global: GlobalService) {
     this.selected_product = this.dataTransfer.selected_product;
     console.log(this.selected_product);
     this.events.subscribe('filter_changed', (data) => {
@@ -29,6 +32,8 @@ export class BuyListPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.today = new Date().toISOString().split('T')[0];
+    console.log(this.today);
     let data_dict = {
       'product_id': this.selected_product['id']
     }
@@ -52,10 +57,14 @@ export class BuyListPage implements OnInit {
         if (filter_data != null) {
           this.filter_data = filter_data;
           this.filter_keys = Object.keys(filter_data);
+          this.filter_keys.forEach(element => {
+            this.applied_filter_dict[element] = [];
+          });
           this.filter_keys.forEach((element) => {
             // District filter
             if (element === 'District') {
               if (this.filter_data[element]['value'].length !== 0) {
+                this.applied_filter_dict[element] = this.filter_data[element]['value'];
                 this.is_filter_applied = true;
                 let value_list = this.filter_data[element]['value'];
                 console.log(value_list)
@@ -74,6 +83,7 @@ export class BuyListPage implements OnInit {
               this.filter_data[element]['choices'].forEach(choice_index => {
                 if (choice_index.checked) {
                   selected_size.push(choice_index.id);
+                  this.applied_filter_dict[element].push(choice_index.name);
                 }
               });
               if (selected_size.length !== 0) {
@@ -95,6 +105,7 @@ export class BuyListPage implements OnInit {
               this.filter_data[element]['choices'].forEach(choice_index => {
                 if (choice_index.checked) {
                   selected_size.push(choice_index.id);
+                  this.applied_filter_dict[element].push(choice_index.name);
                 }
               });
               if (selected_size.length !== 0) {
