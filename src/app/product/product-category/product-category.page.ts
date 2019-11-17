@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { Router } from '@angular/router';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendEnquiryValidator } from 'src/app/buy/send-enquiry/send-enquiry-validate';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-product-category',
@@ -18,8 +19,8 @@ export class ProductCategoryPage implements OnInit {
   isProductAvailable = false;
   products: any;
   product_form: FormGroup
-  constructor(private navCtrl: NavController, private httpService: HttpService, private router: Router,
-    private dataTransfer: DataTransferService, private formBuilder: FormBuilder) {
+  constructor(private navCtrl: NavController, private httpService: HttpService, private router: Router, private storage: Storage,
+    private dataTransfer: DataTransferService, private formBuilder: FormBuilder, private loadingCtrl: LoadingController) {
     this.product_form = this.formBuilder.group({
       product_value: [null, Validators.compose([SendEnquiryValidator.checkProductValue, Validators.required])]
     })
@@ -30,21 +31,36 @@ export class ProductCategoryPage implements OnInit {
       this.page_action = 'buy';
     }
     console.log(this.page_action);
+    this.storage.get('all_products').then((products) => {
+      console.log(products);
+      if (products !== null) {
+        this.products = products;
+      }
+    });
+    // this.httpService.serveAllProductsDetails().subscribe((data) => {
+    //   console.log(data);
+    //   this.products = data;
+    // }, (error) => {
+    //   console.error(error);
+    // });
+    this.serveProductCategory();
+  }
+
+  async serveProductCategory() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
     this.httpService.serveProductCategory().subscribe((data) => {
       console.log(data);
       this.product_category = data;
+      loading.dismiss();
     }, (error) => {
-      console.error(error);
-    });
-
-    this.httpService.serveAllProductsDetails().subscribe((data) => {
-      console.log(data);
-      this.products = data;
-    }, (error) => {
+      loading.dismiss();
       console.error(error);
     });
   }
-
   productCategoryClicked(product) {
     this.product_form.get('product_value').setValue(null);
     this.dataTransfer.selectedProductCategory(product);

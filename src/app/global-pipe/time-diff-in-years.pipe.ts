@@ -15,7 +15,7 @@ export class TimeDiffInYearsPipe implements PipeTransform {
     var diff_days = moment.duration(current_date.diff(given_date)).asDays();
     if (diff_days === 0) {
       return 'Today';
-    } else if (diff_days <= 365) {
+    } else if (diff_days <= 30) {
       return String(diff_days) + ' Days ago';
     } else {
       //Difference in number of Month
@@ -24,8 +24,11 @@ export class TimeDiffInYearsPipe implements PipeTransform {
       // console.log(diff_duration.years());
       // console.log(diff_duration.months());
       // console.log(diff_duration.days());
-
-      return String(diff_duration.years()) + ' Years ago' + String(diff_duration.months()) + ' Months ago';
+      if (diff_duration.years() !== 0) {
+        return String(diff_duration.years()) + ' Years ago' + String(diff_duration.months()) + ' Months ago';
+      } else {
+        return String(diff_duration.months()) + ' Months ago';
+      }
     }
   }
 

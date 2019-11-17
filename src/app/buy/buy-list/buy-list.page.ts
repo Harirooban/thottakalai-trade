@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { HttpService } from 'src/app/http.service';
-import { NavController, PopoverController, Events } from '@ionic/angular';
+import { NavController, PopoverController, Events, LoadingController } from '@ionic/angular';
 import { ProductFilterPage } from '../product-filter/product-filter.page';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from 'src/app/global.service';
@@ -21,7 +21,7 @@ export class BuyListPage implements OnInit {
   applied_filter_dict: any = {};
   today: any;
 
-  constructor(private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController,
+  constructor(private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController, private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController, private storage: Storage, private events: Events, public global: GlobalService) {
     this.selected_product = this.dataTransfer.selected_product;
     console.log(this.selected_product);
@@ -29,11 +29,17 @@ export class BuyListPage implements OnInit {
       this.applyFilterOnProduct();
       console.log('Events subscribe')
     });
-  }
-
-  ionViewWillEnter() {
     this.today = new Date().toISOString().split('T')[0];
     console.log(this.today);
+    this.servePostList();
+  }
+
+  async servePostList() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
     let data_dict = {
       'product_id': this.selected_product['id']
     }
@@ -44,8 +50,10 @@ export class BuyListPage implements OnInit {
       if (data.length !== 0) {
         this.applyFilterOnProduct();
       }
+      loading.dismiss();
     }, (error) => {
       console.error(error);
+      loading.dismiss();
     });
   }
 

@@ -49,6 +49,18 @@
         </span><br>
         <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Profile</ion-label>
       </ion-col>
+      <ion-col size="4" class="dashboard-tile icon-one" (click)="routePage('manage/post')">
+        <span>
+          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+        </span><br>
+        <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Manage</ion-label>
+      </ion-col>
+      <ion-col size="4" class="dashboard-tile icon-one" (click)="routePage('request/list')">
+        <span>
+          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+        </span><br>
+        <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Request</ion-label>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

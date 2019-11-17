@@ -18,9 +18,21 @@
     <ion-row>
       <ion-col>
         Product name : {{post['product_name']}}<br>
-        Post date : {{post['post_date']}}<br>
-        Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date']}}</span>
+        Post date : {{post['time_created'] | date}}<br>
+        Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date'] | date}}</span>
         <span *ngIf="post['expiry_date'] ==null">Not Available</span>
+      </ion-col>
+      <ion-col size="4">
+        <ion-chip *ngIf="enquiry_details.hasOwnProperty(post.id)" (click)="enquiryProductClicked(post)">
+          <ion-badge><span
+              *ngIf="readed_enquiry_details.hasOwnProperty(post.id)">{{readed_enquiry_details[post.id].length}}/</span>
+              <span
+              *ngIf="!readed_enquiry_details.hasOwnProperty(post.id)">0/</span>
+            {{enquiry_details[post.id].length}}</ion-badge>&nbsp;Enquiry
+        </ion-chip>
+        <ion-chip *ngIf="!enquiry_details.hasOwnProperty(post.id)">
+          <ion-badge>0</ion-badge>&nbsp;Enquiry
+        </ion-chip>
       </ion-col>
     </ion-row>
     <hr style="border-width: 0.2px;">
@@ -42,7 +54,7 @@
     </ion-row>
     <ion-row>
       <ion-col style="text-align: center;">
-        <ion-label *ngIf="post.is_sold && !post.is_active ">
+        <ion-label *ngIf="post.is_sold && !post.is_active">
           Product sold
         </ion-label>
         <ion-label *ngIf="!post.is_active && !post.is_sold">

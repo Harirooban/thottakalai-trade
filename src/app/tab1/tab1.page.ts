@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from '../global.service';
 import { AuthenticationService } from '../services/authentication.service';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from '../http.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendEnquiryValidator } from '../buy/send-enquiry/send-enquiry-validate';
@@ -20,19 +20,32 @@ export class Tab1Page {
   products: any;
   product_form: FormGroup;
 
-  constructor(private storage: Storage, private global: GlobalService, private authService: AuthenticationService,
+  constructor(private storage: Storage, private global: GlobalService, private authService: AuthenticationService, private loadingCtrl: LoadingController,
     private navCtrl: NavController, private httpService: HttpService, private formBuilder: FormBuilder, private dataTransfer: DataTransferService) {
     this.product_form = this.formBuilder.group({
       product_value: [null, Validators.compose([SendEnquiryValidator.checkProductValue, Validators.required])]
     })
     this.app_version = this.global.app_version;
+    this.serveProducts();
+  }
+
+  async serveProducts() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
     this.httpService.serveAllProductsDetails().subscribe((data) => {
       console.log(data);
       this.products = data;
+      this.storage.set('all_products', data);
+      loading.dismiss();
     }, (error) => {
       console.error(error);
+      loading.dismiss();
     });
   }
+
 
   ionViewWillEnter() {
     // this.getAppVersion();

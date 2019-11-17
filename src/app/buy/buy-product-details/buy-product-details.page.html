@@ -24,7 +24,7 @@
   <ion-row style="text-align: center;">
     <ion-col>
       <ion-label class="bold-text">Date</ion-label><br>
-      <span>{{selected_product_details['post_date']}}</span>
+      <span>{{selected_product_details['time_created'] | date}}</span>
     </ion-col>
     <ion-col>
       <ion-chip>{{selected_product_details['sale_type']}}</ion-chip>
@@ -61,7 +61,7 @@
     </ion-col>
   </ion-row>
   <ion-row *ngIf="selected_product_details['notes']!=null" style="text-align: center;">
-    <ion-col class="bold-text">Notes :</ion-col>
+    <ion-col class="bold-text" size="3">Notes :</ion-col>
     <ion-col>{{selected_product_details['notes']}}</ion-col>
   </ion-row>
   <hr style="border-width: 1px;">

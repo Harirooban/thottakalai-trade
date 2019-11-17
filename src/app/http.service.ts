@@ -137,4 +137,20 @@ export class HttpService {
   serveUserProfileData() {
     return this.httpClient.get(this.global.server_url + 'trade/serve/user/profile/data/', { headers: this.headers });
   }
+
+  markEnquiryAsRead(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/mark/enquiry/as/read/', data, { headers: this.headers });
+  }
+
+  serveProductCategoryAndSubCategory() {
+    return this.httpClient.get(this.global.server_url + 'trade/serve/product/category/sub/category/', { headers: this.headers });
+  }
+
+  registerRequestLog(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/register/request/log/', data, { headers: this.headers });
+  }
+
+  serveRequestLog() {
+    return this.httpClient.get(this.global.server_url + 'trade/serve/product/request/log/');
+  }
 }

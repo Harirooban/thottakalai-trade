@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, AlertController, NavController } from '@ionic/angular';
+import { ModalController, NavParams, AlertController, NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { GlobalService } from 'src/app/global.service';
 
@@ -17,37 +17,62 @@ export class PostRemoveAndSoldOutPage implements OnInit {
   notes: any = null;
   selected_sold_out_answers: any = {};
 
-  constructor(private modalCtrl: ModalController, private navParams: NavParams, private httpService: HttpService,
+  constructor(private modalCtrl: ModalController, private navParams: NavParams, private httpService: HttpService, private loadingCtrl: LoadingController,
     private alertController: AlertController, private navCtrl: NavController, private globalService: GlobalService) {
     this.selected_post = this.navParams.get('post_data');
     this.modal_action = this.navParams.get('action');
     console.log(this.selected_post);
     if (this.modal_action === 'remove') {
-      this.httpService.serveSalePostRemoveCv().subscribe((data: any) => {
-        console.log(data);
-        this.remove_cvs = data;
-      }, (error) => {
-        console.error(error);
-      });
+      this.serveRemoveCvs();
     } else if (this.modal_action === 'sold_out') {
-      this.httpService.serveSalePostSoldOutCv().subscribe((data) => {
-        console.log(data);
-        this.sold_out_answers = data;
-        this.sold_out_questions = Object.keys(data);
-        this.sold_out_questions.forEach(element => {
-          this.selected_sold_out_answers[element] = {};
-        });
-      }, (error) => {
-        console.error(error);
-      });
+      this.serveSoldOutCvs();
     }
   }
 
   ngOnInit() {
   }
 
+  async serveRemoveCvs() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
+    this.httpService.serveSalePostRemoveCv().subscribe((data: any) => {
+      console.log(data);
+      this.remove_cvs = data;
+      loading.dismiss();
+    }, (error) => {
+      console.error(error);
+      loading.dismiss();
+    });
+  }
+
+  async serveSoldOutCvs() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
+    this.httpService.serveSalePostSoldOutCv().subscribe((data) => {
+      console.log(data);
+      this.sold_out_answers = data;
+      this.sold_out_questions = Object.keys(data);
+      this.sold_out_questions.forEach(element => {
+        this.selected_sold_out_answers[element] = {};
+      });
+      loading.dismiss();
+    }, (error) => {
+      loading.dismiss();
+      console.error(error);
+    });
+  }
   // saving sale pose remove answers
-  removeActionClicked() {
+  async removeActionClicked() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
     let checked_ids = this.remove_cvs.reduce((a, element) => element.checked ? a.concat(element.id) : a, []);
     let data_dict = {
       'post_id': this.selected_post['id'],
@@ -61,18 +86,25 @@ export class PostRemoveAndSoldOutPage implements OnInit {
       data_dict['notes'] = this.notes;
     }
     console.log(data_dict);
+    loading.present();
     this.httpService.saveSalePostRemoveDetails(data_dict).subscribe(() => {
       this.modalCtrl.dismiss({
         'data': true
       });
+      loading.dismiss();
       // this.presentAlert();
     }, (error) => {
+      loading.dismiss();
       console.error(error);
     });
   }
 
   // saving sold out question and answer details
-  soldOutActionClicked() {
+  async soldOutActionClicked() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
     let sold_out_data = []
     this.sold_out_questions.forEach(element => {
       if (this.selected_sold_out_answers[element] !== {} && this.selected_sold_out_answers[element] !== undefined) {
@@ -90,13 +122,16 @@ export class PostRemoveAndSoldOutPage implements OnInit {
       data_dict['notes'] = this.notes;
     }
     console.log(data_dict);
+    loading.present();
     this.httpService.saveSalePostSoldOutDetails(data_dict).subscribe(() => {
       this.modalCtrl.dismiss({
         'data': true
       });
       // this.presentAlert();
+      loading.dismiss();
     }, (error) => {
       console.error(error);
+      loading.dismiss();
     });
 
   }

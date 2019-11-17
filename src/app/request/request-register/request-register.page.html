@@ -1,0 +1,172 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="global.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides [options]="slideOpts" #register_slide>
+    <ion-slide>
+      <form [formGroup]="product_form">
+        <ion-searchbar animated="true" mode="ios" placeholder="Search Product" formControlName="product_value"
+          #filter_term>
+        </ion-searchbar>
+        <ion-list *ngIf="product_form.valid">
+          <ion-item *ngFor="let product of all_products | productFilter: filter_term.value;"
+            (click)="productSelected(product)">
+            {{ product['name'] }}
+          </ion-item>
+        </ion-list>
+      </form>
+      <ion-row class="ion-align-items-center" *ngIf="product_category != null">
+        <ion-col>
+          <ion-item
+            [style.border]="selected_product_details['category_id'] == null  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Category<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select interface="popover" [(ngModel)]="selected_product_details['category_id']"
+              (ionChange)="categoryChanged()">
+              <ion-select-option *ngFor="let category of product_category" [value]="category.id">
+                {{category.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center" *ngIf="product_sub_category != null">
+        <ion-col>
+          <ion-item
+            [style.border]="selected_product_details['sub_category_id'] == null  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Sub Category<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select interface="popover" [(ngModel)]="selected_product_details['sub_category_id']"
+              (ionChange)="subCategoryChanged()">
+              <ion-select-option
+                *ngFor="let sub_category of product_sub_category[selected_product_details['category_id']]"
+                [value]="sub_category.id">
+                {{sub_category.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center" *ngIf="products != null">
+        <ion-col>
+          <ion-item
+            [style.border]="selected_product_details['product'] == null  ? '1px solid red' : '1px solid lightgrey'">
+            <ion-label position="stacked">Product<ion-icon name="star" style="color: red"></ion-icon>
+            </ion-label>
+            <ion-select interface="popover" [(ngModel)]="selected_product_details['product']">
+              <ion-select-option *ngFor="let product of products[selected_product_details['sub_category_id']]"
+                [value]="product">
+                {{product.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <ion-button size="small" [disabled]="selected_product_details['product'] == null"
+            (click)="productSelected(selected_product_details['product'])">Next</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide>
+      <div style="text-align: center;">Fill your needs</div>
+      <ion-row *ngIf="selected_product_details['product']!=null">
+        <ion-col>Selected product:</ion-col>
+        <ion-col>{{selected_product_details['product']['name']}}</ion-col>
+      </ion-row>
+      <form [formGroup]="request_register_form">
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item
+              [style.border]="request_register_form.value.quantity == null || request_register_form.value.quantity == ''  ? '1px solid red' : '1px solid lightgrey'">
+              <ion-label position="stacked">Quantity<ion-icon name="star" style="color: red;"></ion-icon>
+              </ion-label>
+              <ion-input formControlName="quantity" type="number"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item
+              [style.border]="request_register_form.value.unit_id == null  ? '1px solid red' : '1px solid lightgrey'"
+              lines="none">
+              <ion-label position="stacked">Unit<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="unit_id" interface="popover">
+                <span>
+                  <ion-select-option *ngFor="let unit of units" [value]="unit['id']">
+                    {{unit['name']}}
+                  </ion-select-option>
+                </span>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="align-items-center" *ngIf="districts != null">
+          <ion-col>
+            <ion-item style="border: 1px solid lightgrey;">
+              <ion-label position="stacked">State<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="state" interface="action-sheet" (ionChange)="stateValueChanged()">
+                <ion-select-option *ngFor="let state of states" [value]="state.id">
+                  {{state.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item style="border: 1px solid lightgrey;">
+              <ion-label position="stacked">District<ion-icon name="star" style="color: red"></ion-icon>
+              </ion-label>
+              <ion-select formControlName="district" interface="action-sheet">
+                <ion-select-option *ngFor="let district of districts[request_register_form.value.state]"
+                  [value]="district.id">
+                  {{district.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="align-items-center">
+          <ion-col>
+            <ion-item class="ion-align-items-center">
+              <ion-label position="stacked">Door No, Address
+              </ion-label>
+              <ion-textarea formControlName="address"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <ion-item style="border: 1px solid lightgrey;">
+              <ion-label position="stacked">Notes
+              </ion-label>
+              <ion-textarea formControlName="notes"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="text-align: left;" size="4">
+            <ion-button size="small" (click)="backClicked()" fill="clear">
+              <ion-icon name="arrow-round-back" style="font-size:30px;"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col style="text-align: left;">
+            <ion-button size="small" (click)="submitClicked()" [disabled]="!request_register_form.valid">Submit
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

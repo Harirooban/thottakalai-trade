@@ -24,17 +24,18 @@
     </ion-row>
   </span>
   <span *ngIf="modal_action == 'sold_out'">
+    <div style="font-size: 16px; text-align: center; font-weight: bold;">We will mark this product as sold</div>
     <ion-row *ngFor="let question of sold_out_questions">
       <ion-col size="12">
         {{question}}
       </ion-col>
       <ion-col>
         <ion-radio-group [(ngModel)]="selected_sold_out_answers[question]">
-          <ion-row>
-            <ion-col>
-              <ion-item lines="none" *ngFor="let answer of sold_out_answers[question]">
-                <ion-label>{{answer['answer']}}</ion-label>
-                <ion-radio [value]="answer" slot="end"></ion-radio>
+          <ion-row style="margin-top: -4%;">
+            <ion-col *ngFor="let answer of sold_out_answers[question]">
+              <ion-item lines="none">
+                <ion-radio [value]="answer"></ion-radio>
+                <ion-label> {{answer['answer']}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>

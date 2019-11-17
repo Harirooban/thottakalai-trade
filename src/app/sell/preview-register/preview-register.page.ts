@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { GlobalService } from 'src/app/global.service';
 
@@ -14,7 +14,7 @@ export class PreviewRegisterPage implements OnInit {
   temp_values_for_display: any;
 
   constructor(private modalCtrl: ModalController, private navParams: NavParams, private httpService: HttpService,
-    private globalService: GlobalService) {
+    private globalService: GlobalService, private loadingCtrl: LoadingController) {
     this.forms_values = this.navParams.get('form_values');
     this.pictures = this.navParams.get('pictures');
     this.temp_values_for_display = this.navParams.get('temp_dict');
@@ -25,7 +25,12 @@ export class PreviewRegisterPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  confirmClicked() {
+  async confirmClicked() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
     let data_dict = {
       'form_values': this.forms_values,
       'pictures': this.pictures
@@ -36,7 +41,9 @@ export class PreviewRegisterPage implements OnInit {
       this.modalCtrl.dismiss();
       this.globalService.displayToast('Your sale registered', 'middle', 2000);
       this.globalService.onHomeClicked();
+      loading.dismiss();
     }, (error) => {
+      loading.dismiss();
       console.error(error);
     });
   }

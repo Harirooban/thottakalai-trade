@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="post_details!=null">{{post_details['product_name']}} - Enquiry</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="text-align: center;">Product details</div>
+  <ion-row style="text-align: center; background: #14eddb;">
+    <ion-col size="4">{{post_details['product_name']}}</ion-col>
+    <ion-col size="4">{{post_details['quantity']}} {{post_details['unit_name']}}</ion-col>
+    <ion-col size="4" *ngIf="post_details['per_unit_price']!=null">{{post_details['per_unit_price']}} Rs /
+      {{post_details['unit_name']}} </ion-col>
+  </ion-row>
+  <div style="text-align: center;">Enquiry details</div>
+  <ion-card *ngFor="let enquiry of enquiry_details; let enquiry_index=index" style="padding: 5px;" [style.background]="!enquiry.is_read ? '#edc58f': '#efece7'">
+    <ion-row>
+      <ion-col>
+        <span><b>Name:</b> {{enquiry['first_name']}} {{enquiry['last_name']}} </span><br>
+        <span><b>Place:</b> {{enquiry['district']}}, {{enquiry['state']}}</span><br>
+        <span><b>Phone:</b> {{enquiry['mobile']}}</span>
+        <!-- <span *ngIf="enquiry['alternate_mobile']!-null">, {{enquiry['alternate_mobile']}}</span><br> -->
+      </ion-col>
+      <ion-col size="5" style="font-size: 28px; text-align: center; margin-top: 16px;">
+        <a class="button" href="tel:{{enquiry['mobile']}}" style="text-decoration: none;">
+          <ion-icon name="call" style="color: green;"></ion-icon>&nbsp;
+        </a>
+        <ion-icon name="chatbubbles"></ion-icon>&nbsp;
+        <ion-icon name="checkmark" (click)="markReadClicked(enquiry_index, enquiry.id)" *ngIf="!enquiry['is_read']"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <hr style="border-width: 0.2px;">
+    <ion-row>
+      <ion-col>
+        <span><b>Requested as :</b>{{enquiry['purchase_type_name']}}</span><br>
+        <span><b>Notes: </b>{{enquiry['enquiry']}}</span>
+      </ion-col>
+      <ion-col style="text-align: right;margin-top: 16px;" size="3">
+        <span style="font-style: italic;font-size: 13px;">{{enquiry['time_created'] | timeDiffInYears}}</span></ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

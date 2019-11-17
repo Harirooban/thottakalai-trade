@@ -72,6 +72,18 @@ const routes: Routes = [
     loadChildren: () => import('./manage-post/manage-post/manage-post.module').then(m => m.ManagePostPageModule)
   },
   {
+    path: 'manage/enquiry',
+    loadChildren: () => import('./manage-post/manage-enquiry/manage-enquiry.module').then(m => m.ManageEnquiryPageModule)
+  },
+  {
+    path: 'request/list',
+    loadChildren: () => import('./request/request-list/request-list.module').then(m => m.RequestListPageModule)
+  },
+  {
+    path: 'request/register',
+    loadChildren: () => import('./request/request-register/request-register.module').then(m => m.RequestRegisterPageModule)
+  },
+  {
     path: 'auth',
     canActivate: [AuthGuardService],
     loadChildren: () => import('./child-routing.module').then(m => m.ChildRoutingModule)

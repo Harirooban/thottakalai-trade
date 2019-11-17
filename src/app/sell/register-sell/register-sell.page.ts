@@ -90,7 +90,7 @@ export class RegisterSellPage implements OnInit {
     this.register_form.get('grade_id').setValue(post_data['grade_id']);
     this.register_form.get('price').setValue(post_data['per_unit_price']);
     this.register_form.get('product_type_id').setValue(post_data['product_type_id']);
-    this.register_form.get('availability_date').setValue(post_data['post_date']);
+    this.register_form.get('availability_date').setValue(post_data['availability_date']);
     this.register_form.get('expiry_date').setValue(post_data['expiry_date']);
     console.log(this.register_form.value);
     this.form_action = 'edit';
@@ -113,7 +113,12 @@ export class RegisterSellPage implements OnInit {
   }
 
 
-  serveSaleTypeAndUnit(product_id) {
+  async serveSaleTypeAndUnit(product_id) {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    loading.present();
     let data_dict = {
       'product_id': product_id
     };
@@ -130,7 +135,9 @@ export class RegisterSellPage implements OnInit {
         this.setEditablePostData();
         this.ref.detectChanges();
       }
+      loading.dismiss();
     }, (error) => {
+      loading.dismiss();
       console.error(error);
     });
   }
@@ -179,7 +186,7 @@ export class RegisterSellPage implements OnInit {
       'sale_type': this.sale_type[this.register_form.value.sale_type_id]['name'],
       'variety': this.register_form.value.variety,
       'product_type_name': this.product_type[this.register_form.value.product_type_id]['name'],
-      'post_date': this.register_form.value.availability_date,
+      'availability_date': this.register_form.value.availability_date,
       'quantity': this.register_form.value.quantity,
       'unit_name': this.units[this.register_form.value.unit_id]['name'],
       'per_unit_price': this.register_form.value.price
@@ -213,21 +220,29 @@ export class RegisterSellPage implements OnInit {
     // });
   }
 
-  updateSell() {
+  async updateSell() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
     let data_dict = {
       'form_values': this.register_form.value,
       'pictures': this.post_pictures_list,
       'sale_post_id': this.selected_product['id']
     };
+    loading.present();
     console.log(data_dict);
     this.httpService.saveSalePost(data_dict).subscribe((data) => {
       console.log(data);
       this.globalService.displayToast('Your sale updated', 'middle', 2000);
       this.navCtrl.navigateBack('manage/post');
+      loading.dismiss();
     }, (error) => {
       console.error(error);
+      loading.dismiss();
     });
   }
+
   async choosePicture() {
     const actionsheet = await this.actionsheetCtrl.create({
       header: 'upload picture',
