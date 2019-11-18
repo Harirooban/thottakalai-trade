@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RequestListPage } from './request-list.page';
-import { PipesModule } from 'src/app/global-pipe/pipes.module';
+import { RequestInDetailsPage } from './request-in-details.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RequestListPage
+    component: RequestInDetailsPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    PipesModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [RequestListPage]
+  declarations: [RequestInDetailsPage]
 })
-export class RequestListPageModule {}
+export class RequestInDetailsPageModule {}

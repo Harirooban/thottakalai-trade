@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="request_details!=null">{{request_details['product_name']}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="global.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="12" style="text-align: center; margin-top: 10px;"> Request Details</ion-col>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Name :</ion-col>
+    <ion-col size="5">{{request_details['user_first_name']}} {{request_details['user_last_name']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Phone number :</ion-col>
+    <ion-col size="5">{{request_details['user_mobile']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Email :</ion-col>
+    <ion-col size="5">{{request_details['user_email']}}</ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Address :</ion-col>
+    <ion-col size="5">{{request_details['address']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">State :</ion-col>
+    <ion-col size="5">{{request_details['state']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">District :</ion-col>
+    <ion-col size="5">{{request_details['district']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Quantity :</ion-col>
+    <ion-col size="5">{{request_details['quantity']}} {{request_details['unit_name']}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Notes :</ion-col>
+    <ion-col size="5">{{request_details['notes']}}</ion-col>
+  </ion-row>
+  
+</ion-content>

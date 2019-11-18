@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
+import { DataTransferService } from 'src/app/services/data-transfer.service';
 
 @Component({
   selector: 'app-request-list',
@@ -10,7 +11,8 @@ import { HttpService } from 'src/app/http.service';
 export class RequestListPage implements OnInit {
   request_details: any;
 
-  constructor(private navCtrl: NavController, private httpService: HttpService, private loadingCtrl: LoadingController) {
+  constructor(private navCtrl: NavController, private httpService: HttpService, private loadingCtrl: LoadingController,
+  private dataTransferService: DataTransferService) {
   }
 
   async ionViewWillEnter() {
@@ -29,8 +31,13 @@ export class RequestListPage implements OnInit {
     });
   }
 
-  addNewRequestClicked() {
-    this.navCtrl.navigateForward('request/register');
+  routePageClicked(page) {
+    this.navCtrl.navigateForward(page);
+  }
+
+  requestDetailsClicked(request_obj) {
+    this.dataTransferService.selectedRequestDetails(request_obj);
+    this.navCtrl.navigateForward('request/details');
   }
 
   ngOnInit() {

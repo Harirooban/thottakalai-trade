@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./login/login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'app',
+    path: 'app', 
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
@@ -82,6 +82,10 @@ const routes: Routes = [
   {
     path: 'request/register',
     loadChildren: () => import('./request/request-register/request-register.module').then(m => m.RequestRegisterPageModule)
+  },
+  {
+    path: 'request/details',
+    loadChildren: () => import('./request/request-in-details/request-in-details.module').then(m => m.RequestInDetailsPageModule)
   },
   {
     path: 'auth',

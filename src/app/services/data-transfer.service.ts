@@ -12,6 +12,7 @@ export class DataTransferService {
   enquiry_product: any;
   selected_post_id: any;
   selected_enquiry_post: any;
+  selected_request_details: any;
 
   constructor() { }
 
@@ -45,5 +46,9 @@ export class DataTransferService {
 
   selectedEnquiryPost(obj) {
     this.selected_enquiry_post = obj;
+  }
+
+  selectedRequestDetails(request_obj) {
+    this.selected_request_details = request_obj;
   }
 }
