@@ -37,7 +37,7 @@
     </ion-row>
   </marquee> -->
   <div style="font-size: 17px;margin-top:-2%; text-align:center">Recent Demands</div>
-  <ion-slides [options]="slideOpts" #request_slide loop="true" style="border:1px solid gray;">
+  <ion-slides [options]="slideOpts" #request_slide loop="true">
     <ion-slide *ngFor="let request of requests">
       <!-- <ion-card> -->
       <ion-row style="width: 100%;">
