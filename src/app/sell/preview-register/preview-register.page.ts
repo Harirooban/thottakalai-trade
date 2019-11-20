@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { GlobalService } from 'src/app/global.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-preview-register',
@@ -12,13 +13,20 @@ export class PreviewRegisterPage implements OnInit {
   forms_values: any;
   pictures: any;
   temp_values_for_display: any;
+  product_images: any = {};
 
   constructor(private modalCtrl: ModalController, private navParams: NavParams, private httpService: HttpService,
-    private globalService: GlobalService, private loadingCtrl: LoadingController) {
+    private globalService: GlobalService, private loadingCtrl: LoadingController, private storage: Storage) {
     this.forms_values = this.navParams.get('form_values');
     this.pictures = this.navParams.get('pictures');
     this.temp_values_for_display = this.navParams.get('temp_dict');
     console.log(this.temp_values_for_display);
+    this.storage.get('product_image').then((product_image) => {
+      console.log(product_image);
+      if (product_image !== null) {
+        this.product_images = product_image
+      }
+    });
   }
 
   async dismissModal() {

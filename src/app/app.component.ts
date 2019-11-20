@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 import { HttpService } from './http.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authService: AuthenticationService,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private storage: Storage,
   ) {
     this.initializeApp();
   }
@@ -37,6 +39,12 @@ export class AppComponent {
         } else {
           this.router.navigate(['login']);
         }
+      });
+      this.httpService.serveProductImage().subscribe((data) => {
+        console.log(data);
+        this.storage.set('product_image', data['product_image']);
+        this.storage.set('category_image', data['category_image']);
+        this.storage.set('sub_category_image', data['sub_category_image']);
       });
     });
   }

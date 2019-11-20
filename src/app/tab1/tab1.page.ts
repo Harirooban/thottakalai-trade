@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from '../global.service';
 import { AuthenticationService } from '../services/authentication.service';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, IonSlides } from '@ionic/angular';
 import { HttpService } from '../http.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendEnquiryValidator } from '../buy/send-enquiry/send-enquiry-validate';
@@ -14,11 +14,34 @@ import { DataTransferService } from '../services/data-transfer.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  @ViewChild('request_slide', { static: false }) request_slides: IonSlides;
+  @ViewChild('recent_post_slide', { static: false }) recent_post_slides: IonSlides;
+  slideOpts = {
+    speed: 400,
+    allowTouchMove: true,
+    initialSlide: 1,
+    slidesPerView: 3,
+    loop: true,
+    // centeredSlides: true,
+    autoplay: true
+  };
+  recentPostOpts = {
+    speed: 600,
+    allowTouchMove: true,
+    initialSlide: 1,
+    slidesPerView: 2,
+    loop: true,
+    // centeredSlides: true,
+    autoplay: true
+  }
   user_type: any = 'guest';
   user_first_name: any;
   app_version: any = '';
   products: any;
   product_form: FormGroup;
+  requests: any;
+  product_images: any = {};
+  recent_posts: any;
 
   constructor(private storage: Storage, private global: GlobalService, private authService: AuthenticationService, private loadingCtrl: LoadingController,
     private navCtrl: NavController, private httpService: HttpService, private formBuilder: FormBuilder, private dataTransfer: DataTransferService) {
@@ -27,6 +50,16 @@ export class Tab1Page {
     })
     this.app_version = this.global.app_version;
     this.serveProducts();
+    this.storage.get('product_image').then((product_image) => {
+      // console.log(product_image);
+      if (product_image !== null) {
+        this.product_images = product_image;
+      }
+    });
+  }
+
+  ionViewDidEnter() {
+    this.request_slides.startAutoplay();
   }
 
   async serveProducts() {
@@ -37,8 +70,10 @@ export class Tab1Page {
     loading.present();
     this.httpService.serveAllProductsDetails().subscribe((data) => {
       console.log(data);
-      this.products = data;
-      this.storage.set('all_products', data);
+      this.products = data['product'];
+      this.storage.set('all_products', data['product']);
+      this.requests = data['request'];
+      this.recent_posts = data['recent_posts'];
       loading.dismiss();
     }, (error) => {
       console.error(error);
@@ -46,7 +81,16 @@ export class Tab1Page {
     });
   }
 
+  requestDetailsClicked(request_obj) {
+    this.dataTransfer.selectedRequestDetails(request_obj);
+    this.navCtrl.navigateForward('request/details');
+  }
 
+  makeEnquiryClicked(product) {
+    this.dataTransfer.enquiryProduct(product);
+    this.navCtrl.navigateForward('buy/product/details');
+  }
+  
   ionViewWillEnter() {
     // this.getAppVersion();
     // this.global.checkGPSPermission();

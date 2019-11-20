@@ -18,7 +18,9 @@
       <ion-card (click)="productClicked(product)" style="height: 82%; font-size: 21px;">
         <ion-row>
           <ion-col size="2" style="width: 21px;">
-            <ion-img src="assets/plant_icons/Apple.svg"></ion-img>
+            <img [src]="product_images[product.id]" style="width: 100%; height:100%;"
+              *ngIf="product_images.hasOwnProperty(product.id)">
+            <!-- <ion-img src="assets/plant_icons/Apple.svg"></ion-img> -->
           </ion-col>
           <ion-col style="margin-left: 5px;">
             {{product['name']}}

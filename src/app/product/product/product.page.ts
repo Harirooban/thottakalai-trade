@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { GlobalService } from 'src/app/global.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-product',
@@ -15,9 +16,10 @@ export class ProductPage implements OnInit {
   page_action: string;
   products: any;
   available_product_count: any;
+  product_images: any = {};
 
   constructor(private dataTransfer: DataTransferService, private router: Router, private navCtrl: NavController, private httpService: HttpService,
-    public global: GlobalService, private loadingCtrl: LoadingController) {
+    public global: GlobalService, private loadingCtrl: LoadingController, private storage: Storage) {
     this.product_sub_category = this.dataTransfer.selected_product_sub_category;
     console.log(this.product_sub_category);
     let url = this.router.url;
@@ -28,6 +30,12 @@ export class ProductPage implements OnInit {
     }
     console.log(this.page_action);
     this.serveProduct();
+    this.storage.get('product_image').then((product_image) => {
+      console.log(product_image);
+      if (product_image !== null) {
+        this.product_images = product_image
+      }
+    });
   }
 
   async serveProduct() {

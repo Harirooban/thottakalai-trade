@@ -19,6 +19,8 @@ export class ProductCategoryPage implements OnInit {
   isProductAvailable = false;
   products: any;
   product_form: FormGroup
+  category_images: any = {};
+
   constructor(private navCtrl: NavController, private httpService: HttpService, private router: Router, private storage: Storage,
     private dataTransfer: DataTransferService, private formBuilder: FormBuilder, private loadingCtrl: LoadingController) {
     this.product_form = this.formBuilder.group({
@@ -35,6 +37,12 @@ export class ProductCategoryPage implements OnInit {
       console.log(products);
       if (products !== null) {
         this.products = products;
+      }
+    });
+    this.storage.get('category_image').then((category_image) => {
+      console.log(category_image);
+      if (category_image !== null) {
+        this.category_images = category_image
       }
     });
     // this.httpService.serveAllProductsDetails().subscribe((data) => {

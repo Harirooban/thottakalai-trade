@@ -39,7 +39,8 @@
           <ion-img src="{{ product['image'] }}"></ion-img>
         </ion-avatar>
         <ion-avatar *ngIf="product['image'] == null">
-          <ion-img src="assets/plant_icons/Tomato.svg"></ion-img>
+          <img [src]="product_images[product.product_id]" style="width: 100%; height:100%;"
+              *ngIf="product_images.hasOwnProperty(product.product_id)">
         </ion-avatar>
       </ion-col>
       <ion-col>

@@ -20,6 +20,7 @@ export class BuyListPage implements OnInit {
   data_before_filter: any;
   applied_filter_dict: any = {};
   today: any;
+  product_images: any = {};
 
   constructor(private dataTransfer: DataTransferService, private httpService: HttpService, private navCtrl: NavController, private loadingCtrl: LoadingController,
     private popOverCtrl: PopoverController, private storage: Storage, private events: Events, public global: GlobalService) {
@@ -32,6 +33,12 @@ export class BuyListPage implements OnInit {
     this.today = new Date().toISOString().split('T')[0];
     console.log(this.today);
     this.servePostList();
+    this.storage.get('product_image').then((product_image) => {
+      console.log(product_image);
+      if (product_image !== null) {
+        this.product_images = product_image;
+      }
+    });
   }
 
   async servePostList() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
 import { HttpService } from 'src/app/http.service';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-request-list',
@@ -10,9 +11,16 @@ import { DataTransferService } from 'src/app/services/data-transfer.service';
 })
 export class RequestListPage implements OnInit {
   request_details: any;
+  product_images: any;
 
   constructor(private navCtrl: NavController, private httpService: HttpService, private loadingCtrl: LoadingController,
-  private dataTransferService: DataTransferService) {
+  private dataTransferService: DataTransferService, private storage: Storage) {
+    this.storage.get('product_image').then((product_image) => {
+      console.log(product_image);
+      if (product_image !== null) {
+        this.product_images = product_image
+      }
+    });
   }
 
   async ionViewWillEnter() {

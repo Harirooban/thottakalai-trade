@@ -153,4 +153,8 @@ export class HttpService {
   serveRequestLog() {
     return this.httpClient.get(this.global.server_url + 'trade/serve/product/request/log/');
   }
+
+  serveProductImage() {
+    return this.httpClient.get(this.global.server_url + 'trade/serve/product/images/');
+  }
 }
