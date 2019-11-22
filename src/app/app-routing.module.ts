@@ -76,6 +76,10 @@ const routes: Routes = [
     loadChildren: () => import('./manage-post/manage-enquiry/manage-enquiry.module').then(m => m.ManageEnquiryPageModule)
   },
   {
+    path: 'manage/enquiry/notification',
+    loadChildren: () => import('./manage-post/manage-enquiry/manage-enquiry.module').then(m => m.ManageEnquiryPageModule)
+  },
+  {
     path: 'request/list',
     loadChildren: () => import('./request/request-list/request-list.module').then(m => m.RequestListPageModule)
   },

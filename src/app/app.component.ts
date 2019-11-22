@@ -14,6 +14,38 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  public appPages = [
+    {
+      title: 'Home',
+      url: '/app/tabs/tab1',
+      icon: 'home',
+      src: ''
+    },
+    {
+      title: 'Profile',
+      url: '/profile',
+      icon: 'person',
+      src: ''
+    },
+    {
+      title: 'Sell',
+      url: 'sell/product/category',
+      icon: 'person',
+      src: ''
+    },
+    {
+      title: 'Buy',
+      url: 'buy/product/category',
+      icon: 'heart',
+      src: ''
+    },
+    {
+      title: 'Ask your needs',
+      url: 'request/register',
+      icon: 'heart',
+      src: ''
+    },
+  ];
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

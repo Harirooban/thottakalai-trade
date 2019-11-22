@@ -6,6 +6,7 @@ import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendEnquiryValidator } from 'src/app/buy/send-enquiry/send-enquiry-validate';
 import { Storage } from '@ionic/storage';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-product-category',
@@ -22,7 +23,7 @@ export class ProductCategoryPage implements OnInit {
   category_images: any = {};
 
   constructor(private navCtrl: NavController, private httpService: HttpService, private router: Router, private storage: Storage,
-    private dataTransfer: DataTransferService, private formBuilder: FormBuilder, private loadingCtrl: LoadingController) {
+    private dataTransfer: DataTransferService, private formBuilder: FormBuilder, private loadingCtrl: LoadingController, public global: GlobalService, ) {
     this.product_form = this.formBuilder.group({
       product_value: [null, Validators.compose([SendEnquiryValidator.checkProductValue, Validators.required])]
     })

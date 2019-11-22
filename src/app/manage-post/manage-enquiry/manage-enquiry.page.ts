@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { HttpService } from 'src/app/http.service';
 import { GlobalService } from 'src/app/global.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-enquiry',
@@ -12,10 +13,27 @@ export class ManageEnquiryPage implements OnInit {
   post_details: any;
   enquiry_details: any;
 
-  constructor(private dataTransferService: DataTransferService, private httpService: HttpService, public global: GlobalService) {
-    console.log(this.dataTransferService.selected_enquiry_post);
-    this.post_details = this.dataTransferService.selected_enquiry_post['post_details'];
-    this.enquiry_details = this.dataTransferService.selected_enquiry_post['enquiry_details'];
+  constructor(private dataTransferService: DataTransferService, private httpService: HttpService, public global: GlobalService,
+    private router: Router) {
+    // console.log(this.dataTransferService.selected_enquiry_post);
+    let url = this.router.url;
+    if (url.includes('notification')) {
+      let selected_post = this.dataTransferService.selected_notification_post;
+      console.log(selected_post);
+      let data_dict = {
+        'post_id': selected_post
+      };
+      this.httpService.serveSelectedPostEnquiry(data_dict).subscribe((data) => {
+        console.log(data);
+        this.post_details = data['post_details'];
+        this.enquiry_details = data['enquiry_details'];
+      }, (error) => {
+        console.error(error);
+      });
+    } else {
+      this.post_details = this.dataTransferService.selected_enquiry_post['post_details'];
+      this.enquiry_details = this.dataTransferService.selected_enquiry_post['enquiry_details'];
+    }
   }
 
   markReadClicked(index, enquiry_id) {
@@ -33,7 +51,7 @@ export class ManageEnquiryPage implements OnInit {
   }
 
   checkCounts() {
-    
+
   }
   ngOnInit() {
   }

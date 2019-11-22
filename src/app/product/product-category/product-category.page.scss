@@ -1,0 +1,19 @@
+.product_title {
+  word-wrap: break-word;
+  position: absolute;
+  bottom: 10%;
+  left: 3%;
+  background: #f2ac59;
+  width: 96%;
+  color: white;
+  font-size: 18px;
+
+//   opacity: 1.5;
+}
+.background-image {
+  background-position: center;
+  background-size: cover;
+  height: 120px;
+//   opacity: 0.7;
+  position: relative;
+}

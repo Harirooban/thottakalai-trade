@@ -24,7 +24,7 @@ export class ProfilePage implements OnInit {
   trader_type_cv: any;
 
   constructor(private formBuilder: FormBuilder, private loadingCtrl: LoadingController, private httpService: HttpService,
-    private global: GlobalService, private storage: Storage, private navCtrl: NavController) {
+    public global: GlobalService, private storage: Storage, private navCtrl: NavController) {
     this.user_profile_form = this.formBuilder.group({
       first_name: [null, Validators.compose([Validators.required])],
       last_name: [null, Validators.compose([Validators.required])],

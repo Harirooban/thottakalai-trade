@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpService } from '../http.service';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +9,13 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private httpService: HttpService, public global: GlobalService) {
+    this.httpService.serveUnReadEnquiryCount().subscribe((data: any) => {
+      console.log(data);
+      this.global.un_read_enquiry_count = data;
+    }, (error) => {
+      console.error(error);
+    });
+  }
 
 }

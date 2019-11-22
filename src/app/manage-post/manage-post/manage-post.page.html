@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Product list</ion-title>
+    <ion-title>Your product list</ion-title>
   </ion-toolbar>
   <ion-fab vertical="top" horizontal="end">
     <ion-fab-button (click)="addNewProductClicked()">
@@ -22,13 +22,9 @@
         Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date'] | date}}</span>
         <span *ngIf="post['expiry_date'] ==null">Not Available</span>
       </ion-col>
-      <ion-col size="4">
+      <ion-col size="4" *ngIf="enquiry_details!=null">
         <ion-chip *ngIf="enquiry_details.hasOwnProperty(post.id)" (click)="enquiryProductClicked(post)">
-          <ion-badge><span
-              *ngIf="readed_enquiry_details.hasOwnProperty(post.id)">{{readed_enquiry_details[post.id].length}}/</span>
-              <span
-              *ngIf="!readed_enquiry_details.hasOwnProperty(post.id)">0/</span>
-            {{enquiry_details[post.id].length}}</ion-badge>&nbsp;Enquiry
+          <ion-badge>{{enquiry_details[post.id].length}}</ion-badge>&nbsp;Enquiry
         </ion-chip>
         <ion-chip *ngIf="!enquiry_details.hasOwnProperty(post.id)">
           <ion-badge>0</ion-badge>&nbsp;Enquiry

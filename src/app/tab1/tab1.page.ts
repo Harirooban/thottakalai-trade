@@ -20,8 +20,8 @@ export class Tab1Page {
     speed: 400,
     allowTouchMove: true,
     initialSlide: 1,
-    slidesPerView: 3,
-    loop: true,
+    slidesPerView: 4,
+    // loop: true,
     // centeredSlides: true,
     autoplay: true
   };
@@ -30,10 +30,10 @@ export class Tab1Page {
     allowTouchMove: true,
     initialSlide: 1,
     slidesPerView: 2,
-    loop: true,
-    // centeredSlides: true,
+    // loop: true,
     autoplay: true
-  }
+  };
+
   user_type: any = 'guest';
   user_first_name: any;
   app_version: any = '';
@@ -58,9 +58,10 @@ export class Tab1Page {
     });
   }
 
-  ionViewDidEnter() {
-    this.request_slides.startAutoplay();
-  }
+  // ionViewDidEnter() {
+  //   this.request_slides.startAutoplay();
+  //   this.recent_post_slides.startAutoplay();
+  // }
 
   async serveProducts() {
     const loading = await this.loadingCtrl.create({
@@ -90,10 +91,12 @@ export class Tab1Page {
     this.dataTransfer.enquiryProduct(product);
     this.navCtrl.navigateForward('buy/product/details');
   }
-  
+
   ionViewWillEnter() {
     // this.getAppVersion();
     // this.global.checkGPSPermission();
+    // this.request_slides.startAutoplay();
+    // this.recent_post_slides.startAutoplay();
     this.storage.get('user_type').then((user_type) => {
       console.log(user_type);
       if (user_type !== null) {

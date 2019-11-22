@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="form_action == 'register'">Register - {{selected_product['name']}}</ion-title>
+    <ion-title *ngIf="form_action == 'register'">Register - {{selected_product['name']}} to sell</ion-title>
     <ion-title *ngIf="form_action == 'edit'">Edit - {{selected_product['product_name']}}</ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="globalService.onHomeClicked()">

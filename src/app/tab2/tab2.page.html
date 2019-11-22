@@ -1,9 +1,20 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Enquires
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-list *ngFor="let date of enquiry_dates" style="padding:13px">
+    <div style="font-size: 18px;">
+      {{date}}
+    </div>
+    <ion-row (click)="enquiryClicked(enquiry.post_id)" *ngFor="let enquiry of enquiry_list[date]" style="background: aquamarine;font-size: 21px;border-radius: 15px;margin-top: 6px;">
+      <ion-col>
+        <ion-label>Enquiry for {{enquiry['product_name']}} from <br> {{enquiry['first_name']}}, {{enquiry['district']}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

@@ -14,12 +14,13 @@
 
 <ion-content>
   <ion-row style="text-align: center;">
-    <ion-col style="text-align: center; margin-top: 10px;"> Product Details</ion-col>
-    <ion-slides pager="true" [options]="slideImageOpts" *ngIf="product_images != null">
-      <ion-slide *ngFor="let product_image of product_images">
-        <img style="height: 140px;" src="{{ product_image['image'] }}">
-      </ion-slide>
-    </ion-slides>
+    <ion-col style="text-align: center; margin-top: 10px;"> Product Details
+      <ion-slides pager="true" [options]="slideImageOpts" *ngIf="product_images != null">
+        <ion-slide *ngFor="let product_image of product_images">
+          <img style="height: 140px;" src="{{ product_image['image'] }}">
+        </ion-slide>
+      </ion-slides>
+    </ion-col>
   </ion-row>
   <ion-row style="text-align: center;">
     <ion-col>

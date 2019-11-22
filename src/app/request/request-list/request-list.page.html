@@ -3,17 +3,18 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Request list</ion-title>
+    <ion-title>Demands list</ion-title>
   </ion-toolbar>
   <ion-fab vertical="top" horizontal="end">
-    <ion-fab-button size="small" (click)="routePageClicked('request/register')">
+    <ion-fab-button (click)="routePageClicked('request/register')">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar animated="true" mode="ios" placeholder="Search Product" #filter_term>
+  <div style="text-align: right; margin-top:4%; margin-right: 6px;;">(Ask your needs)</div>
+  <ion-searchbar animated="true"  placeholder="Search Product" #filter_term>
   </ion-searchbar>
   <ion-card *ngFor="let request of request_details | requestCropFilter: filter_term.value">
     <ion-row>

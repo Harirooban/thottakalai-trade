@@ -10,8 +10,8 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class GlobalService {
-  private _server_url = 'http://localhost:8000/';
-  // private _server_url = 'http://192.168.0.9:8000/';
+  // private _server_url = 'http://localhost:8000/';
+  private _server_url = 'http://192.168.0.3:8000/';
   // private _server_url = 'http://142.93.210.110:80/';
 
   // bank server urls;
@@ -20,7 +20,7 @@ export class GlobalService {
   private _bank_server_url = 'http://142.93.210.110:83/';
 
   private _app_version: string = '0.0.1';
-
+  private un_read_count = 0;
   constructor(private toastCtrl: ToastController, private diagnostic: Diagnostic, private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy, private geolocation: Geolocation, private storage: Storage, private navCtrl: NavController) {
   }
@@ -35,6 +35,14 @@ export class GlobalService {
 
   get app_version() {
     return this._app_version;
+  }
+
+  get un_read_enquiry_count() {
+    return this.un_read_count;
+  }
+
+  set un_read_enquiry_count(un_read_count) {
+    this.un_read_count = un_read_count;
   }
 
   async displayToast(message: string, position: any, duration: number) {

@@ -32,7 +32,7 @@ export class ManagePostPage implements OnInit {
       console.log(data);
       this.post_list = data['post_data'];
       this.enquiry_details = data['enquiry_data'];
-      this.readed_enquiry_details = data['readed_data'];
+      // this.readed_enquiry_details = data['readed_data'];
       loading.dismiss();
     }, (error) => {
       console.error(error);

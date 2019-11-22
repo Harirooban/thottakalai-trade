@@ -29,13 +29,15 @@
 // }
 
 .dashboard-grid {
-  padding: 0%;
-  margin-top: 1%;
-  //background: url(../../assets/backgrounds/2.jpg);
+  padding: 3%;
+  // margin-top: 10px;
+  background: url(../../assets/dashboard-icon/main_back.jpg);
+  background-size: cover;
+  // background: #f5d8e0;
 }
 
 .dashboard-tile {
-  border: solid 3px #F3F3F3;
+  border: solid 3px #f5d8e0;
   background-color: whitesmoke;
   padding-top: 10px;
   height: 100px;
@@ -63,57 +65,76 @@
   font-weight: bold;
 }
 
-
 .icon-one {
-  background-color: #72b0d5;
+  background-color: white;
 }
 
 .icon-two {
-  background-color: #FBE6CB;
+  background-color: #fbe6cb;
 }
 
 .icon-three {
-  background-color: #C3D2D9;
+  background-color: #c3d2d9;
 }
 
 // for input blue line removal
-  // .item-interactive {
-  //   --border-width: 0;
-  // }
+// .item-interactive {
+//   --border-width: 0;
+// }
 
-  // .item-interactive.item-has-focus {
-  //   --highlight-background: none;
-  // }
+// .item-interactive.item-has-focus {
+//   --highlight-background: none;
+// }
 
-  .footer-call-a {
-    text-decoration: none;
-    color: black;
-    padding-top: 1px;
-  }
+.footer-call-a {
+  text-decoration: none;
+  color: black;
+  padding-top: 1px;
+}
 
-  .footer-chip {
-    margin: 0;
-  }
+.footer-chip {
+  margin: 0;
+}
 
-  .footer-icon {
-    color: black;
-    padding-right: 5px
-  }
+.footer-icon {
+  color: black;
+  padding-right: 5px;
+}
 
-  .button-color{
-    --background: #6bdad6;
-    height: 30px;
-    font-size: 14px;
-    color: black;
-    text-transform: capitalize;
-  }
+.button-color {
+  --background: #6bdad6;
+  height: 30px;
+  font-size: 14px;
+  color: black;
+  text-transform: capitalize;
+}
 
-  .label-size {
-    margin-left: 10px;
-    margin-bottom: -2px;
-  }
-  
-  .icon-size {
-    color:red;
-    font-size: 18px;
-  }
+.label-size {
+  margin-left: 10px;
+  margin-bottom: -2px;
+}
+
+.icon-size {
+  color: red;
+  font-size: 18px;
+}
+
+.slide-class {
+  font-size: 13px;
+  border-right: 1px solid #cecece;
+  border-left: 1px solid #cecece;
+}
+
+.slide2-image {
+  margin-left: 32%;
+  margin-bottom: -10%;
+}
+
+.card-background {
+  background: white;
+  padding: 10px;
+}
+.slide2-card {
+  background: white;
+  width:100%;
+}
