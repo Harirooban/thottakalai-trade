@@ -3,6 +3,8 @@ import { HttpService } from 'src/app/http.service';
 import { NavController, ModalController, LoadingController } from '@ionic/angular';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { PostRemoveAndSoldOutPage } from '../post-remove-and-sold-out/post-remove-and-sold-out.page';
+import { Storage } from '@ionic/storage';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-manage-post',
@@ -10,12 +12,20 @@ import { PostRemoveAndSoldOutPage } from '../post-remove-and-sold-out/post-remov
   styleUrls: ['./manage-post.page.scss'],
 })
 export class ManagePostPage implements OnInit {
-  post_list: any;
+  post_list: any = [];
   enquiry_details: any;
   readed_enquiry_details: any;
+  user_type: any;
 
   constructor(private httpService: HttpService, private navCtrl: NavController, private dataTransfer: DataTransferService,
-    private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+    private modalCtrl: ModalController, private loadingCtrl: LoadingController, private storage: Storage, public global: GlobalService) {
+    this.storage.get('user_type').then((user_type) => {
+      console.log(user_type);
+      this.user_type = user_type;
+      // if (user_type === 'guest') {
+      //   this.presentAlert();
+      // }
+    });
   }
 
   ionViewWillEnter() {

@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Your product list</ion-title>
   </ion-toolbar>
-  <ion-fab vertical="top" horizontal="end">
+  <ion-fab vertical="top" horizontal="end" *ngIf="user_type != 'guest'">
     <ion-fab-button (click)="addNewProductClicked()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -13,50 +13,67 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-card *ngFor="let post of post_list">
+  <div *ngIf="user_type != 'guest'">
+    <div *ngIf="post_list.length == 0" style="text-align: center;margin-top: 14%;font-size: 23px;">
+      Your product list is empty
+    </div>
+    <ion-card *ngFor="let post of post_list">
+      <ion-row>
+        <ion-col>
+          Product name : {{post['product_name']}}<br>
+          Post date : {{post['time_created'] | date}}<br>
+          Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date'] | date}}</span>
+          <span *ngIf="post['expiry_date'] ==null">Not Available</span>
+        </ion-col>
+        <ion-col size="4" *ngIf="enquiry_details!=null">
+          <ion-chip *ngIf="enquiry_details.hasOwnProperty(post.id)" (click)="enquiryProductClicked(post)">
+            <ion-badge>{{enquiry_details[post.id].length}}</ion-badge>&nbsp;Enquiry
+          </ion-chip>
+          <ion-chip *ngIf="!enquiry_details.hasOwnProperty(post.id)">
+            <ion-badge>0</ion-badge>&nbsp;Enquiry
+          </ion-chip>
+        </ion-col>
+      </ion-row>
+      <hr style="border-width: 0.2px;">
+      <ion-row style="text-align: center;" *ngIf="post.is_active && !post.is_sold">
+        <ion-col>
+          <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'remove')">
+            Remove
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'sold_out')">
+            Mark sold
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="small" style="text-transform: initial;" (click)="postEditClicked(post)">Edit
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <ion-label *ngIf="post.is_sold && !post.is_active">
+            Product sold
+          </ion-label>
+          <ion-label *ngIf="!post.is_active && !post.is_sold">
+            Product Removed
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+  <span *ngIf="user_type == 'guest'">
+    <h6 style="text-align: center;">You must <em>Login</em> to see this content</h6>
     <ion-row>
+      <ion-col></ion-col>
       <ion-col>
-        Product name : {{post['product_name']}}<br>
-        Post date : {{post['time_created'] | date}}<br>
-        Expiry date : <span *ngIf="post['expiry_date'] !=null">{{post['expiry_date'] | date}}</span>
-        <span *ngIf="post['expiry_date'] ==null">Not Available</span>
-      </ion-col>
-      <ion-col size="4" *ngIf="enquiry_details!=null">
-        <ion-chip *ngIf="enquiry_details.hasOwnProperty(post.id)" (click)="enquiryProductClicked(post)">
-          <ion-badge>{{enquiry_details[post.id].length}}</ion-badge>&nbsp;Enquiry
-        </ion-chip>
-        <ion-chip *ngIf="!enquiry_details.hasOwnProperty(post.id)">
-          <ion-badge>0</ion-badge>&nbsp;Enquiry
+        <ion-chip (click)="global.onLoginClicked()">
+          <ion-label>Login</ion-label>
+          <ion-icon name="log-in"></ion-icon>
         </ion-chip>
       </ion-col>
+      <ion-col></ion-col>
     </ion-row>
-    <hr style="border-width: 0.2px;">
-    <ion-row style="text-align: center;" *ngIf="post.is_active && !post.is_sold">
-      <ion-col>
-        <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'remove')">
-          Remove
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button size="small" style="text-transform: initial;" (click)="removeOrSoldOutClicked(post, 'sold_out')">
-          Mark sold
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button size="small" style="text-transform: initial;" (click)="postEditClicked(post)">Edit
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col style="text-align: center;">
-        <ion-label *ngIf="post.is_sold && !post.is_active">
-          Product sold
-        </ion-label>
-        <ion-label *ngIf="!post.is_active && !post.is_sold">
-          Product Removed
-        </ion-label>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+  </span>
 </ion-content>

@@ -11,9 +11,11 @@
     <div style="font-size: 18px;">
       {{date}}
     </div>
-    <ion-row (click)="enquiryClicked(enquiry.post_id)" *ngFor="let enquiry of enquiry_list[date]" style="background: aquamarine;font-size: 21px;border-radius: 15px;margin-top: 6px;">
+    <ion-row (click)="enquiryClicked(enquiry.post_id)" *ngFor="let enquiry of enquiry_list[date]"
+      style="background: #ecf13f;font-size: 21px;border-radius: 15px;margin-top: 6px;">
       <ion-col>
-        <ion-label>Enquiry for {{enquiry['product_name']}} from <br> {{enquiry['first_name']}}, {{enquiry['district']}}</ion-label>
+        <ion-label>Enquiry for {{enquiry['product_name']}} from <br> {{enquiry['first_name']}}, {{enquiry['district']}}
+        </ion-label>
       </ion-col>
     </ion-row>
   </ion-list>

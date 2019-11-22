@@ -22,6 +22,7 @@ export class ProfilePage implements OnInit {
   states: any;
   trade_user_type: any;
   trader_type_cv: any;
+  user_type: any;
 
   constructor(private formBuilder: FormBuilder, private loadingCtrl: LoadingController, private httpService: HttpService,
     public global: GlobalService, private storage: Storage, private navCtrl: NavController) {
@@ -38,6 +39,14 @@ export class ProfilePage implements OnInit {
       trade_user_type: [null, Validators.compose([Validators.required])],
       company_name: [null, Validators.compose([])],
       alternate_phone: [null, Validators.compose([])],
+    });
+
+    this.storage.get('user_type').then((user_type) => {
+      console.log(user_type);
+      this.user_type = user_type;
+      // if (user_type === 'guest') {
+      //   this.presentAlert();
+      // }
     });
   }
 
@@ -102,9 +111,11 @@ export class ProfilePage implements OnInit {
   formEditClicked() {
     this.is_form_editable = !this.is_form_editable
   }
+  
   stateValueChanged() {
     this.user_profile_form.get('district').setValue(null);
   }
+
   ngOnInit() {
   }
 

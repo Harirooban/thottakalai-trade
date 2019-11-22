@@ -8,6 +8,7 @@ import { HttpService } from 'src/app/http.service';
 import { DataTransferService } from 'src/app/services/data-transfer.service';
 import { Storage } from '@ionic/storage';
 import { RegisterPage } from '../register/register.page';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-login',
@@ -18,22 +19,30 @@ export class LoginPage implements OnInit {
   public login_form: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private httpService: HttpService,
-    private authendicationService: AuthenticationService, private router: Router, private alertController: AlertController,
+    private authendicationService: AuthenticationService, private router: Router, private alertController: AlertController, private nativeStorage: NativeStorage,
     private httpClient: HttpClient, private modalCtrl: ModalController, private dataTrasfer: DataTransferService, private storage: Storage) {
     this.login_form = this.formBuilder.group({
       user_name: ['', Validators.compose([Validators.required])],
       password: [null, Validators.required],
     });
+    this.nativeStorage.getItem('login_user_name_for_form').then((username) => {
+      console.log(username);
+      if (username != null) {
+        this.login_form.get('user_name').setValue(username);
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   onLoginClicled() {
-    // this.login_form.get('user_name').setValue(this.login_form.value.user_name.toLowerCase());
-    // const form_user_name = this.login_form.value['user_name']
-    // this.nativeStorage.setItem('login_user_name_for_form', form_user_name).then(() => {
-    //   console.log('Native Storage');
-    // }).catch((error) => {
-    //   console.error(error);
-    // });
+    this.login_form.get('user_name').setValue(this.login_form.value.user_name);
+    const form_user_name = this.login_form.value['user_name']
+    this.nativeStorage.setItem('login_user_name_for_form', form_user_name).then(() => {
+      console.log('Native Storage');
+    }).catch((error) => {
+      console.error(error);
+    });
     this.authendicationService.login(this.login_form.value);
     this.login_form.get('password').reset();
     // this.navCtrl.navigateRoot('/app/tabs/(home:home)');
@@ -97,14 +106,14 @@ export class LoginPage implements OnInit {
     });
     modal.onDidDismiss().then((data) => {
       console.log(data);
-      // this.nativeStorage.getItem('login_user_name_for_form').then((username) => {
-      //   console.log(username);
-      //   if (username != null) {
-      //     this.login_form.get('user_name').setValue(username);
-      //   }
-      // }).catch((error) => {
-      //   console.error(error);
-      // });
+      this.nativeStorage.getItem('login_user_name_for_form').then((username) => {
+        console.log(username);
+        if (username != null) {
+          this.login_form.get('user_name').setValue(username);
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
     });
     modal.present();
   }

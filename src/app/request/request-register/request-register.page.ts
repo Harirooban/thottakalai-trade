@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpService } from 'src/app/http.service';
-import { LoadingController, IonSlides } from '@ionic/angular';
+import { LoadingController, IonSlides, AlertController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendEnquiryValidator } from 'src/app/buy/send-enquiry/send-enquiry-validate';
 import { GlobalService } from 'src/app/global.service';
@@ -32,7 +32,7 @@ export class RequestRegisterPage implements OnInit {
   user_profile: any;
 
   constructor(private storage: Storage, private httpService: HttpService, private loadingCtrl: LoadingController, private formBuilder: FormBuilder,
-    public global: GlobalService) {
+    public global: GlobalService, private alertController: AlertController) {
     this.product_form = this.formBuilder.group({
       product_value: [null, Validators.compose([SendEnquiryValidator.checkProductValue, Validators.required])]
     });
@@ -52,13 +52,19 @@ export class RequestRegisterPage implements OnInit {
         this.all_products = products;
       }
     });
+    this.storage.get('user_type').then((user_type) => {
+      console.log(user_type);
+      if (user_type === 'guest') {
+        this.presentAlert();
+      }
+    });
     this.storage.get('user_profile').then((user_profile) => {
       console.log(user_profile);
       this.user_profile = user_profile;
       this.request_register_form.get('state').setValue(user_profile['state_id']);
       this.request_register_form.get('district').setValue(user_profile['district_id']);
       this.request_register_form.get('address').setValue(user_profile['village']);
-    })
+    });
     this.httpService.serveGeneralDataForRegister().subscribe((data) => {
       console.log(data);
       this.districts = data['districts'];
@@ -95,6 +101,32 @@ export class RequestRegisterPage implements OnInit {
     this.register_slides.slideTo(1);
     console.log(this.selected_product_details['product']);
 
+  }
+
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      message: 'You need to login to sell the product',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Back to home',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Home clicked');
+            this.global.onHomeClicked();
+          }
+        }, {
+          text: 'Login now',
+          handler: () => {
+            console.log('Login clicked');
+            this.global.onLoginClicked();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   categoryChanged() {

@@ -265,14 +265,14 @@ export class RegisterPage implements OnInit {
     });
     console.log(this.register_form_basic.value);
     loading.present();
-    const user_name = this.register_form_basic.value.phone;
-    this.nativeStorage.setItem('login_user_name_for_form', user_name).then(() => {
-      console.log('Native Storage');
-    }).catch((error) => {
-      console.error(error);
-    });
     this.httpService.registerTrader(this.register_form_basic.value).subscribe((data) => {
       console.log(data);
+      const user_name = this.register_form_basic.value.phone;
+      this.nativeStorage.setItem('login_user_name_for_form', user_name).then(() => {
+        console.log('Native Storage');
+      }).catch((error) => {
+        console.error(error);
+      });
       this.global.displayToast('Registered successfully! you can login to enjoy the feature', 'middle', 2000);
       loading.dismiss();
       this.modalCtrl.dismiss();

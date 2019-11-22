@@ -13,7 +13,7 @@
   <ion-slides [options]="slideOpts" #register_slide>
     <ion-slide>
       <ion-row>
-        <div style="padding: 10px;margin-left: 10%;font-size: 22px;"> I am,</div>
+        <div style="padding: 10px;margin-left: 39%;font-size: 22px;"> I am,</div>
         <ion-col size="12" *ngFor="let type of trade_user_type">
           <ion-button (click)="userTypeClicked(type.id)">{{type['name']}}</ion-button>
         </ion-col>
@@ -204,7 +204,7 @@
     </ion-slide>
     <ion-slide>
       <form [formGroup]="register_form_basic" style="width: 100%">
-        <ion-row>
+        <ion-row style="margin-top: 15%;">
           <ion-col>
             <ion-label>Your Username: {{register_form_basic.value.phone}}</ion-label>
           </ion-col>

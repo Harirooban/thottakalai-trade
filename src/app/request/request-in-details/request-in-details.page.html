@@ -13,8 +13,22 @@
 </ion-header>
 
 <ion-content>
+  <ion-row style="margin-top: 10px;">
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Product name :</ion-col>
+    <ion-col size="5">{{request_details['product_name']}}</ion-col>
+  </ion-row>
   <ion-row>
-    <ion-col size="12" style="text-align: center; margin-top: 10px;"> Request Details</ion-col>
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Quantity :</ion-col>
+    <ion-col size="5">{{request_details['quantity']}} {{request_details['unit_name']}}</ion-col>
+  </ion-row>
+  <ion-row *ngIf="request_details.notes!=null">
+    <ion-col size="1"></ion-col>
+    <ion-col size="5">Notes :</ion-col>
+    <ion-col size="5">{{request_details['notes']}}</ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col size="5">Name :</ion-col>
     <ion-col size="5">{{request_details['user_first_name']}} {{request_details['user_last_name']}}</ion-col>
@@ -22,17 +36,23 @@
   <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col size="5">Phone number :</ion-col>
-    <ion-col size="5">{{request_details['user_mobile']}}</ion-col>
+    <ion-col size="5" *ngIf="user_type != 'guest'">{{request_details['user_mobile']}} <a class="button"
+        href="tel:{{request_details['user_mobile']}}" style="text-decoration: none;">
+        <ion-icon name="call" style="color: green; font-size: 18px;"></ion-icon>&nbsp;
+      </a></ion-col>
+    <ion-col size="5" *ngIf="user_type == 'guest'" style="font-size: 19px; color: red;">xxxxxxxxxx</ion-col>
   </ion-row>
   <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col size="5">Email :</ion-col>
-    <ion-col size="5">{{request_details['user_email']}}</ion-col>
+    <ion-col size="5" *ngIf="user_type != 'guest'">{{request_details['user_email']}}</ion-col>
+    <ion-col size="5" *ngIf="user_type == 'guest'" style="font-size: 19px; color: red;">xxxxxxxxxx</ion-col>
   </ion-row>
-  <ion-row >
+  <ion-row>
     <ion-col size="1"></ion-col>
     <ion-col size="5">Address :</ion-col>
-    <ion-col size="5">{{request_details['address']}}</ion-col>
+    <ion-col size="5" *ngIf="user_type != 'guest'">{{request_details['address']}}</ion-col>
+    <ion-col size="5" *ngIf="user_type == 'guest'" style="font-size: 19px; color: red;">xxxxxxxxxx</ion-col>
   </ion-row>
   <ion-row>
     <ion-col size="1"></ion-col>
@@ -44,15 +64,10 @@
     <ion-col size="5">District :</ion-col>
     <ion-col size="5">{{request_details['district']}}</ion-col>
   </ion-row>
-  <ion-row>
-    <ion-col size="1"></ion-col>
-    <ion-col size="5">Quantity :</ion-col>
-    <ion-col size="5">{{request_details['quantity']}} {{request_details['unit_name']}}</ion-col>
+
+  <ion-row *ngIf="page_action == 'via_home'" style="text-align: center; margin-top: 25%; font-size: 22px;">
+    <ion-col>
+      <ion-button size="small">Click here</ion-button> to see the other<br> product demans
+    </ion-col>
   </ion-row>
-  <ion-row>
-    <ion-col size="1"></ion-col>
-    <ion-col size="5">Notes :</ion-col>
-    <ion-col size="5">{{request_details['notes']}}</ion-col>
-  </ion-row>
-  
 </ion-content>

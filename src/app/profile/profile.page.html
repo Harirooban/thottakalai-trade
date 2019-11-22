@@ -5,10 +5,10 @@
     </ion-buttons>
     <ion-title>Profile</ion-title>
     <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="global.onHomeClicked()">
-          <ion-icon name="home" style="font-size: x-large;"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-button fill="clear" (click)="global.onHomeClicked()">
+        <ion-icon name="home" style="font-size: x-large;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +16,7 @@
   <!-- <ion-button (click)="managePostClicked()">
     Manage your products
   </ion-button> -->
-  <form [formGroup]="user_profile_form">
+  <form [formGroup]="user_profile_form" *ngIf="user_type != 'guest'">
     <ion-list lines="full" *ngIf="user_data!=null">
       <!-- <ion-row>
         <ion-col style="text-align: right">
@@ -139,7 +139,7 @@
       <ion-row class="align-items-center">
         <ion-col>
           <ion-item class="border-class">
-            <ion-label position="stacked">Alternative Number
+            <ion-label position="stacked">Alternative mobile number
             </ion-label>
             <ion-input formControlName="alternate_phone" type="number"></ion-input>
           </ion-item>
@@ -147,8 +147,21 @@
       </ion-row>
     </ion-list>
   </form>
+  <span *ngIf="user_type == 'guest'">
+    <h6 style="text-align: center;">You must <em>Login</em> to see this content</h6>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-chip (click)="global.onLoginClicked()">
+          <ion-label>Login</ion-label>
+          <ion-icon name="log-in"></ion-icon>
+        </ion-chip>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </span>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="user_type != 'guest'">
   <ion-row class="align-items-center">
     <ion-col></ion-col>
     <ion-col>

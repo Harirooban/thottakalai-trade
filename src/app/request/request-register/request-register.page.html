@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Register</ion-title>
+    <ion-title>Add your needs</ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="global.onHomeClicked()">
         <ion-icon name="home" style="font-size: x-large;"></ion-icon>
@@ -16,7 +16,7 @@
   <ion-slides [options]="slideOpts" #register_slide>
     <ion-slide>
       <form [formGroup]="product_form">
-        <ion-searchbar animated="true" mode="ios" placeholder="Search Product" formControlName="product_value"
+        <ion-searchbar animated="true" placeholder="Search Product" formControlName="product_value"
           #filter_term>
         </ion-searchbar>
         <ion-list *ngIf="product_form.valid">

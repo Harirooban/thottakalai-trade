@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
@@ -54,6 +54,7 @@ export class AppComponent {
     private router: Router,
     private httpService: HttpService,
     private storage: Storage,
+    private loadingCtrl: LoadingController
   ) {
     this.initializeApp();
   }
@@ -62,7 +63,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
       this.authService.authendicationState.subscribe((state) => {
         console.log('auth service in app component state: ' + state);
         this.splashScreen.hide();
@@ -71,12 +71,6 @@ export class AppComponent {
         } else {
           this.router.navigate(['login']);
         }
-      });
-      this.httpService.serveProductImage().subscribe((data) => {
-        console.log(data);
-        this.storage.set('product_image', data['product_image']);
-        this.storage.set('category_image', data['category_image']);
-        this.storage.set('sub_category_image', data['sub_category_image']);
       });
     });
   }

@@ -92,6 +92,10 @@ const routes: Routes = [
     loadChildren: () => import('./request/request-in-details/request-in-details.module').then(m => m.RequestInDetailsPageModule)
   },
   {
+    path: 'request/details/via/home',
+    loadChildren: () => import('./request/request-in-details/request-in-details.module').then(m => m.RequestInDetailsPageModule)
+  },
+  {
     path: 'auth',
     canActivate: [AuthGuardService],
     loadChildren: () => import('./child-routing.module').then(m => m.ChildRoutingModule)

@@ -145,6 +145,7 @@ export class RegisterSellPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       message: 'You need to login to sell the product',
+      backdropDismiss: false,
       buttons: [
         {
           text: 'Back to home',
@@ -190,7 +191,7 @@ export class RegisterSellPage implements OnInit {
       'quantity': this.register_form.value.quantity,
       'unit_name': this.units[this.register_form.value.unit_id]['name'],
       'per_unit_price': this.register_form.value.price,
-      'product_id':this.selected_product['id']
+      'product_id': this.selected_product['id']
     };
     if (this.post_pictures_list.length !== 0) {
       temp_dict['image'] = this.post_pictures_list[0];

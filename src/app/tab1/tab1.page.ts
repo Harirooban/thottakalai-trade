@@ -75,6 +75,7 @@ export class Tab1Page {
       this.storage.set('all_products', data['product']);
       this.requests = data['request'];
       this.recent_posts = data['recent_posts'];
+      this.serveProductImages();
       loading.dismiss();
     }, (error) => {
       console.error(error);
@@ -82,9 +83,27 @@ export class Tab1Page {
     });
   }
 
+  async serveProductImages() {
+    const loading = await this.loadingCtrl.create({
+      animated: true,
+      spinner: 'lines-small',
+    });
+    this.httpService.serveProductImage().subscribe((data) => {
+      console.log(data);
+      this.product_images = data['product_image']
+      this.storage.set('product_image', data['product_image']);
+      this.storage.set('category_image', data['category_image']);
+      this.storage.set('sub_category_image', data['sub_category_image']);
+      loading.dismiss();
+    }, (error) => {
+      loading.dismiss();
+      console.error(error);
+    });
+  }
+
   requestDetailsClicked(request_obj) {
     this.dataTransfer.selectedRequestDetails(request_obj);
-    this.navCtrl.navigateForward('request/details');
+    this.navCtrl.navigateForward('request/details/via/home');
   }
 
   makeEnquiryClicked(product) {
