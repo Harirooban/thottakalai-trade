@@ -4,6 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Platform, Events, LoadingController } from '@ionic/angular';
 import { GlobalService } from '../global.service';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { HttpService } from '../http.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -15,7 +17,7 @@ export class AuthenticationService {
   sub_filters: any = {};
 
   constructor(private global: GlobalService, private httpClient: HttpClient, private storage: Storage, private platoform: Platform,
-    private events: Events, private loadingCtrl: LoadingController) {
+    private events: Events, private loadingCtrl: LoadingController, private fcm: FCM, private httpService: HttpService) {
     this.platoform.ready().then(() => {
       this.checkToken();
     });
@@ -46,6 +48,24 @@ export class AuthenticationService {
         this.storage.set('user_email', res_data['email']);
         this.storage.set('logged_user_id', res_data['user_id']);
         this.storage.set('user_type', res_data['user_type']);
+        this.fcm.getToken().then(token => {
+          let data_dict = {
+            'token': token
+          };
+          this.httpService.saveFCMToken(data_dict).subscribe(() => {
+            console.log('Token Saved');
+          }, (error) => {
+            console.log('Problem in saving token');
+            console.error(error);
+          });
+        });
+        this.httpService.serveUnReadEnquiryCount().subscribe((data: any) => {
+          console.log(data);
+          this.global.un_read_enquiry_count = data;
+          // this.events.publish('un_read_count_changed');
+        }, (error) => {
+          console.error(error);
+        });
         loading.dismiss();
         return this.storage.set(TOKEN_KEY, res_data['token']);
       });
@@ -58,8 +78,15 @@ export class AuthenticationService {
   }
 
   async logout() {
-    return this.storage.clear().then(() => {
-      this.authendicationState.next(false);
+    this.httpService.deleteFcmToken().subscribe(() => {
+      return this.storage.clear().then(() => {
+        this.authendicationState.next(false);
+      });
+    }, (error) => {
+      console.error(error);
+      return this.storage.clear().then(() => {
+        this.authendicationState.next(false);
+      });
     });
     // return this.storage.remove(TOKEN_KEY).then(() => {
     //   this.authendicationState.next(false);

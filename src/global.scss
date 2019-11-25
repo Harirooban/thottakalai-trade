@@ -32,6 +32,13 @@ ion-modal.register-modal {
   padding: 18vh 6vw;
 }
 
+ion-modal.send-enquiry {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  transition: opacity 0.25s ease-in-out;
+  padding: 14vh 6vw;
+}
+
 ion-modal.post-action {
   // transparent black background overlay
   background-color: rgba(0, 0, 0, 0.5) !important;

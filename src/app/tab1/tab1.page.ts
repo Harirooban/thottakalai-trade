@@ -124,6 +124,13 @@ export class Tab1Page {
           console.log(first_name);
           if (first_name != null) {
             this.user_first_name = first_name;
+            this.httpService.serveUnReadEnquiryCount().subscribe((data: any) => {
+              console.log(data);
+              this.global.un_read_enquiry_count = data;
+              // this.events.publish('un_read_count_changed');
+            }, (error) => {
+              console.error(error);
+            });
           } else {
             this.user_first_name = 'guest';
           }

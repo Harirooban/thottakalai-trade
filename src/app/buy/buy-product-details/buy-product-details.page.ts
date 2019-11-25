@@ -66,7 +66,7 @@ export class BuyProductDetailsPage implements OnInit {
     });
     await alert.present();
   }
-  
+
   async sendEnquiryClicked() {
     if (this.user_type === 'guest') {
       this.presentAlert();
@@ -74,7 +74,7 @@ export class BuyProductDetailsPage implements OnInit {
       const modal = await this.modalCtrl.create({
         component: SendEnquiryPage,
         componentProps: {},
-        cssClass: 'register-modal',
+        cssClass: 'send-enquiry',
         backdropDismiss: false
       });
       modal.onDidDismiss().then((data) => {

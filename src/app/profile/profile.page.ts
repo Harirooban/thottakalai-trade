@@ -99,6 +99,10 @@ export class ProfilePage implements OnInit {
       // this.serveUserData();
       this.is_form_editable = true;
       this.global.displayToast('Profile Updated', 'middle', 2000);
+      this.storage.get('user_first_name').then((user_first_name) => {
+        user_first_name = this.user_profile_form.value.first_name
+        this.storage.set('user_first_name', user_first_name);
+      });
     }, (error) => {
       console.error(error);
     });

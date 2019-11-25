@@ -24,6 +24,8 @@ import { SendEnquiryPage } from './buy/send-enquiry/send-enquiry.page';
 import { ProductFilterPage } from './buy/product-filter/product-filter.page';
 import { PostRemoveAndSoldOutPage } from './manage-post/post-remove-and-sold-out/post-remove-and-sold-out.page';
 import { PreviewRegisterPage } from './sell/preview-register/preview-register.page';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx'
 
 @NgModule({
   declarations: [AppComponent, RegisterPage, SendEnquiryPage, ProductFilterPage, PostRemoveAndSoldOutPage, PreviewRegisterPage],
@@ -48,6 +50,8 @@ import { PreviewRegisterPage } from './sell/preview-register/preview-register.pa
     LocationAccuracy,
     AndroidPermissions,
     NativeStorage,
+    FCM,
+    LocalNotifications
   ],
   bootstrap: [AppComponent]
 })

@@ -29,11 +29,12 @@
   <ion-grid class="dashboard-grid">
     <ion-row style="text-align: center;">
       <ion-col size="6" *ngFor="let product of product_category" (click)="productCategoryClicked(product)">
-        <!-- <span>
-          <img [src]="category_images[product.id]" style="width: 100px; height:100px;"
-            *ngIf="category_images.hasOwnProperty(product.id)">
-        </span><br> -->
         <div class="background-image" [ngStyle]="{'background-image': 'url('+category_images[product.id]+')'}">
+          <ion-row *ngIf="page_action == 'buy'">
+            <ion-col style="text-align: right;">
+              <ion-badge>{{available_product_category[product.id]}}</ion-badge>
+            </ion-col>
+          </ion-row>
           <ion-label class="product_title">{{product['name']}}</ion-label>
         </div>
       </ion-col>

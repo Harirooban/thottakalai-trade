@@ -10,8 +10,8 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class GlobalService {
-  // private _server_url = 'http://localhost:8000/';
-  private _server_url = 'http://192.168.0.3:8000/';
+  private _server_url = 'http://localhost:8000/';
+  // private _server_url = 'http://192.168.0.2:8000/';
   // private _server_url = 'http://142.93.210.110:80/';
 
   // bank server urls;

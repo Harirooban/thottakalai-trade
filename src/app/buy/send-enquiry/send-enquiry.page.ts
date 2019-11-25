@@ -68,6 +68,26 @@ export class SendEnquiryPage implements OnInit {
     this.httpService.saveSalePostEnquiry(data_dict).subscribe(() => {
       this.globalService.displayToast('Your enquiry submitted', 'middle', 2000);
       this.modalCtrl.dismiss();
+      const payload = {
+        // 'title': 'You have received an enquiry From <br> ' + this.user_first_name + 'for the product ' + this.selected_product_details['product_name'],
+        'title': 'Enquiry!!! For your product ' + this.selected_product_details['product_name'],
+        'body': 'Tab here for more info',
+        'sound': 'default',
+        'data': {
+          'sendername': this.user_first_name,
+          'message': ' '
+        }
+      };
+      let data_dict = {
+        'receiver_user_id': this.selected_product_details['user_id'],
+        'payload': payload
+      };
+      this.httpService.sendPushNotification(data_dict).subscribe(() => {
+        console.log('Notification Sended');
+      }, (error) => {
+        console.log('error in sening notiofication');
+        console.error(error);
+      });
     }, (error) => {
       console.error(error);
     });

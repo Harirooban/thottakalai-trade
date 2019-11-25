@@ -28,7 +28,9 @@
         <ion-row style="width: 100%;">
           <ion-col class="slide-class">
             <img [src]="product_images[request.product_id]" style="width: 50px; height:50px;"
-              (click)="requestDetailsClicked(request)"><br>
+              (click)="requestDetailsClicked(request)" *ngIf="product_images.hasOwnProperty(request.product_id)">
+            <img src="assets/dashboard-icon/no_image.svg" style="width: 50px; height:50px;"
+              (click)="requestDetailsClicked(request)" *ngIf="!product_images.hasOwnProperty(request.product_id)"><br>
             <ion-label>{{request['product_name']| slice :0:4 }} - {{request['quantity']}} {{request['unit_name']}}
             </ion-label><br>
             <ion-label>{{request['district']}}</ion-label>
@@ -67,14 +69,14 @@
       </ion-col>
       <ion-col size="4" (click)="routePage('request/list')">
         <div class="card-background">
-          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+          <img src="assets/dashboard-icon/needs.svg" class="dashboard-tile-icon">
           <br>
           <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Needs?</ion-label>
         </div>
       </ion-col>
       <ion-col size="4" (click)="routePage('manage/post')">
         <div class="card-background">
-          <img src="assets/dashboard-icon/user.svg" class="dashboard-tile-icon">
+          <img src="assets/dashboard-icon/manage.svg" class="dashboard-tile-icon">
           <br>
           <ion-label class="dashboard-title-text" style="word-wrap: break-word;">Manage</ion-label>
         </div>
@@ -98,7 +100,8 @@
             <ion-col (click)="makeEnquiryClicked(post)" style="color: black; font-size:19px;">
               <div class="slide2-image">
                 <span *ngIf="post['image'] == null">
-                  <img [src]="product_images[post.product_id]" style="width: 60px; height:60px"><br>
+                  <img [src]="product_images[post.product_id]" style="width: 60px; height:60px" *ngIf="product_images.hasOwnProperty(post.product_id)">
+                  <img src="assets/dashboard-icon/no_image.svg" style="width: 60px; height:60px;" *ngIf="!product_images.hasOwnProperty(post.product_id)"><br>
                 </span>
                 <span *ngIf="post['image'] != null">
                   <img src="{{post['image']}}" style="width: 60px; height:60px"><br>

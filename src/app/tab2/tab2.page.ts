@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpService } from '../http.service';
 import { DataTransferService } from '../services/data-transfer.service';
-import { NavController } from '@ionic/angular';
+import { NavController, Events } from '@ionic/angular';
 import { GlobalService } from '../global.service';
 
 @Component({
@@ -16,16 +16,19 @@ export class Tab2Page {
 
   constructor(private httpService: HttpService, private dataTransfer: DataTransferService, private navCtrl: NavController,
     private global: GlobalService) {
+
   }
 
   ionViewWillEnter() {
     this.global.un_read_enquiry_count = 0;
     this.httpService.serveAllEnquiryList().subscribe((data) => {
       console.log(data);
-      let enquiry_details = data['enquiry_details']
-      this.enquiry_dates = Object.keys(enquiry_details);
-      this.enquiry_list = enquiry_details;
-      this.enquiry_ids = data['enquiry_ids'];
+      if (data != null) {
+        let enquiry_details = data['enquiry_details'];
+        this.enquiry_dates = Object.keys(enquiry_details);
+        this.enquiry_list = enquiry_details;
+        this.enquiry_ids = data['enquiry_ids'];
+      }
     }, (error) => {
       console.error(error);
     });
@@ -33,13 +36,17 @@ export class Tab2Page {
 
   ionViewWillLeave() {
     console.log('page moved');
-    this.markAllEnquiryAsRead();
+    if (this.enquiry_ids != null) {
+      this.markAllEnquiryAsRead();
+    }
   }
 
   enquiryClicked(post_id) {
     this.dataTransfer.selectedNotificationPost(post_id);
     this.navCtrl.navigateForward('manage/enquiry/notification');
-    this.markAllEnquiryAsRead();
+    if (this.enquiry_ids != null) {
+      this.markAllEnquiryAsRead();
+    }
   }
 
   markAllEnquiryAsRead() {

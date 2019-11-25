@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "577309497684",
+    "firebase_url": "https://thottakalai-16dfc.firebaseio.com",
+    "project_id": "thottakalai-16dfc",
+    "storage_bucket": "thottakalai-16dfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577309497684:android:bd2fb6ae4e4be3597110c1",
+        "android_client_info": {
+          "package_name": "io.kultivate.thottakalaitrade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577309497684-sq5iks2qt281vik6r4hr8qclc45mq7r8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM8H6oneTwd7AfZrg5OgRDkB0nYVcXGJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577309497684-sq5iks2qt281vik6r4hr8qclc45mq7r8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

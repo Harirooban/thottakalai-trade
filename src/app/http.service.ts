@@ -173,4 +173,16 @@ export class HttpService {
   markAllEnquiryAsRead(data) {
     return this.httpClient.post(this.global.server_url + 'trade/mark/all/enquiry/as/read/', data, { headers: this.headers });
   }
+
+  saveFCMToken(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/save/fcm/device/token/', data, { headers: this.headers });
+  }
+
+  deleteFcmToken() {
+    return this.httpClient.get(this.global.server_url + 'trade/delete/user/fcm/token/', { headers: this.headers });
+  }
+
+  sendPushNotification(data) {
+    return this.httpClient.post(this.global.server_url + 'trade/send/push/notification/', data);
+  }
 }

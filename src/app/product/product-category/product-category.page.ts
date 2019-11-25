@@ -21,6 +21,7 @@ export class ProductCategoryPage implements OnInit {
   products: any;
   product_form: FormGroup
   category_images: any = {};
+  available_product_category: any;
 
   constructor(private navCtrl: NavController, private httpService: HttpService, private router: Router, private storage: Storage,
     private dataTransfer: DataTransferService, private formBuilder: FormBuilder, private loadingCtrl: LoadingController, public global: GlobalService, ) {
@@ -63,7 +64,8 @@ export class ProductCategoryPage implements OnInit {
     loading.present();
     this.httpService.serveProductCategory().subscribe((data) => {
       console.log(data);
-      this.product_category = data;
+      this.product_category = data['category'];
+      this.available_product_category = data['count'];
       loading.dismiss();
     }, (error) => {
       loading.dismiss();

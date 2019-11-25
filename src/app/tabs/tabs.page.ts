@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpService } from '../http.service';
 import { GlobalService } from '../global.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -9,12 +10,9 @@ import { GlobalService } from '../global.service';
 })
 export class TabsPage {
 
-  constructor(private httpService: HttpService, public global: GlobalService) {
-    this.httpService.serveUnReadEnquiryCount().subscribe((data: any) => {
-      console.log(data);
-      this.global.un_read_enquiry_count = data;
-    }, (error) => {
-      console.error(error);
+  constructor(private httpService: HttpService, public global: GlobalService, private events: Events, private ref: ChangeDetectorRef) {
+    this.events.subscribe('un_read_count_changed', () => {
+      this.ref.detectChanges();
     });
   }
 
