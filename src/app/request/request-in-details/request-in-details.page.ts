@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-request-in-details',
@@ -16,7 +16,7 @@ export class RequestInDetailsPage implements OnInit {
   user_type: any;
 
   constructor(private dataTransferService: DataTransferService, public global: GlobalService, private router: Router, 
-    private storage: Storage, private alertController: AlertController) {
+    private storage: Storage, private alertController: AlertController, private navCtrl: NavController) {
     this.request_details = this.dataTransferService.selected_request_details;
     console.log(this.request_details);
     let url = router.url;
@@ -55,6 +55,9 @@ export class RequestInDetailsPage implements OnInit {
     await alert.present();
   }
 
+  routeToRequestList() {
+    this.navCtrl.navigateForward('request/list');
+  }
   ngOnInit() {
   }
 
